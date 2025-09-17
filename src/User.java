@@ -6,9 +6,12 @@ public class User {
     protected int age;
     protected String password;
     protected String email;
+    protected String role;
     protected Date createdAt;
 
     public User(){
-        
+
     }
+
+    
 }
