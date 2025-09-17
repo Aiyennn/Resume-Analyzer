@@ -9,10 +9,8 @@ public class MainController {
         this.matchJobUI = matchJobUI;
     }
 
-    public void app(){
-
+    public void app(){ // pass the user in method
+        User user = authUI.loginInput();
     }
-
-
 
 }
