@@ -1,3 +1,5 @@
+package main.java;
+
 public interface Analyzers {
 
     public void dateRelevance();

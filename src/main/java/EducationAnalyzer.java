@@ -1,4 +1,6 @@
-public class SkillAnalyzer implements Analyzers{
+package main.java;
+
+public class EducationAnalyzer implements Analyzers{
     @Override
     public void dateRelevance() {
 
