@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="cd148489-c765-43bb-b7b1-7698e9f4d911" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/AuthService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Database.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/MatchJobService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/UserSession.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/ResumeTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Analyzers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Analyzers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/AuthUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/AuthUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Education.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Education.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/EducationAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/EducationAnalyzer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Employer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Employer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Experience.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Experience.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ExperienceAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ExperienceAnalyzer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/JobDescription.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/JobDescription.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/JobSeeker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/JobSeeker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/MatchJobUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MatchJobUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Resume.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Resume.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ResumeSection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ResumeSection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ResumeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ResumeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ResumeUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ResumeUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Skill.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Skill.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SkillAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SkillAnalyzer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/untitled.iml" beforeDir="false" afterPath="$PROJECT_DIR$/untitled.iml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="340FtWwdHEKjGhxcUCfTTl9bQU6" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "JUnit.ResumeSectionTest.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/iennc/OneDrive/Desktop/Resume-Analyzer",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cd148489-c765-43bb-b7b1-7698e9f4d911" name="Changes" comment="" />
+      <created>1760342800144</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1760342800144</updated>
+    </task>
+    <servers />
+  </component>
+</project>

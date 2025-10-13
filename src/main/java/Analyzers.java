@@ -1,13 +1,14 @@
-package main.java;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 public interface Analyzers {
 
-    public void dateRelevance();
+    public double dateRelevance(LocalDate startDate, LocalDate endDate);
 
-    public void extractKeywords();
+    public double credentialRelevance(String credential1, String credential2);
 
-    public void calculate();
+    public double achievementRelevance(ArrayList<String> achievements);
 
-    public void analyze();
+    public double aggregatePoints(ResumeSection resumeSection);
 
 }

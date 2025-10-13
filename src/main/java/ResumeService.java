@@ -1,4 +1,7 @@
-package main.java;
 public class ResumeService {
-    private Resume resume;
+    private Database database;
+
+    public ResumeService (Database database) {
+        this.database = database;
+    }
 }
