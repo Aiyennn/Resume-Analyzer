@@ -27,3 +27,22 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+# IntelliJ
+.idea/
+*.iml
+
+# Gradle / Maven
+build/
+target/
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Editor temp
+*.swp
+*.swo
+
+# Logs
+*.log
