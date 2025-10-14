@@ -2,6 +2,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Education extends ResumeSection {
+
+    // Credentials
     private String degree;
     private String school;
 

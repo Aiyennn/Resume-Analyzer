@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MatchJobUI {
@@ -15,17 +16,31 @@ public class MatchJobUI {
     }
 
     public void displayMatchJobs(){
-
-        // Will rece
-
+        // Match by keyword
     }
 
     public void displayAllJobs(){
+        // Print shit
+    }
+
+    public void postJob() {
+
+//        Prompt for skillQualifications, educationQualification, experienceQualification
+//        Title
+
+//        matchJobService.postJob(skillQualifications, educationQualification, experienceQualification title);
+
 
     }
 
-    public void displaySavedJobs(){
 
-    }
+//    String title;
+//    ArrayList<String> skillQualification;
+//    ArrayList<String> educationQualification;
+//    ArrayList<String> experienceQualification;
+
+//    public void displaySavedJobs(){
+//
+//    }
 
 }

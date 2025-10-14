@@ -10,8 +10,10 @@ public class Experience extends ResumeSection{
         return company;
     }
 
+    // Credentials
     private String role;
     private String company;
+
     public Experience(LocalDate startDate, LocalDate endDate, ArrayList<String> achievements, String role, String company) {
         super(startDate, endDate, achievements);
         this.role = role;

@@ -17,6 +17,7 @@ public class Main {
         ResumeUI resumeUI = new ResumeUI(resumeService, scanner);
 
         MainController mainController = new MainController(authUI, matchJobUI, resumeUI, scanner);
+
         mainController.app();
 
     }

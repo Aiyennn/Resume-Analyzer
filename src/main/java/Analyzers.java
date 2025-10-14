@@ -9,6 +9,6 @@ public interface Analyzers {
 
     public double achievementRelevance(ArrayList<String> achievements);
 
-    public double aggregatePoints(ResumeSection resumeSection);
+    public double analyze(ResumeSection resumeSection);
 
 }

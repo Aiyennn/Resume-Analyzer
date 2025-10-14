@@ -57,7 +57,8 @@ public class SkillAnalyzer implements Analyzers{
     }
 
     @Override
-    public double aggregatePoints(ResumeSection resumeSection) {
+    public double analyze(ResumeSection resumeSection) {
         return 0;
     }
+    // Analyze the entire resume give a score and grade it Needs improvement, Average, Strong, Excellent
 }

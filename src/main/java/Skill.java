@@ -2,6 +2,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Skill extends ResumeSection{
+
+    // Credentials
     private String skill;
     private String proficiency;
 
