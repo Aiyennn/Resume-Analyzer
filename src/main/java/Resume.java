@@ -1,21 +1,33 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class Resume {
-    ArrayList<Education> educations = new ArrayList<>();
-    ArrayList<Experience> experiences = new ArrayList<>();
-    ArrayList<Skill> skills = new ArrayList<>();
 
-    public ArrayList<Education> getEducations() {
+    List<Education> educations = new ArrayList<>();
+    List<Experience> experiences = new ArrayList<>();
+    List<Skill> skills = new ArrayList<>();
+
+    public Resume(List<Education> educations, List<Experience> experiences, List<Skill> skills) {
+        this.educations = educations;
+        this.experiences = experiences;
+        this.skills = skills;
+    }
+
+    // For test case remove
+    public Resume() {}
+
+    public List<Education> getEducations() {
         return educations;
     }
 
-    public ArrayList<Experience> getExperiences() {
+    public List<Experience> getExperiences() {
         return experiences;
     }
 
-    public ArrayList<Skill> getSkills() {
+    public List<Skill> getSkills() {
         return skills;
     }
+
 
     // Switch arrow case not supported
     public void addSection (ResumeSection section) {

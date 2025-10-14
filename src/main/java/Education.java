@@ -12,4 +12,13 @@ public class Education extends ResumeSection {
         this.achievements = new ArrayList<>();
     }
 
+    public String getDegree() {
+        return degree;
+    }
+
+    public String getSchool() {
+        return school;
+    }
+
+
 }

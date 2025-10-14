@@ -4,6 +4,7 @@ import java.util.ArrayList;
 public abstract class ResumeSection {
     LocalDate startDate;
     LocalDate endDate;
+
     ArrayList<String> achievements;
 
     public ResumeSection(LocalDate startDate, LocalDate endDate, ArrayList<String> achievements) {
@@ -18,5 +19,9 @@ public abstract class ResumeSection {
 
     public LocalDate getEndDate() {
         return endDate;
+    }
+
+    public ArrayList<String> getAchievements() {
+        return achievements;
     }
 }

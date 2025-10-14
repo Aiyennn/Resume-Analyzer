@@ -10,16 +10,22 @@ public class MatchJobUI {
         this.scanner = scanner;
     }
 
+    public void displayMenu(User user) {
+
+    }
+
     public void displayMatchJobs(){
+
+        // Will rece
 
     }
 
     public void displayAllJobs(){
-        
+
     }
 
     public void displaySavedJobs(){
-        
+
     }
 
 }
