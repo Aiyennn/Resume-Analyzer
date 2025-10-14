@@ -68,7 +68,7 @@ public class EducationAnalyzer implements Analyzers {
     }
 
     @Override
-    public double aggregatePoints(ResumeSection resumeSection) {
+    public double analyze(ResumeSection resumeSection) {
 
 //         Will receive an Education class
 

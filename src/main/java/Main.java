@@ -1,10 +1,12 @@
+import java.io.File;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
 
-        Database database = new Database();
+
         Scanner scanner = new Scanner(System.in);
+        Database database = new Database();
 
         AuthService authService = new AuthService(database);
         MatchJobService matchJobService = new MatchJobService(database);
@@ -14,8 +16,10 @@ public class Main {
         MatchJobUI matchJobUI = new MatchJobUI(matchJobService, scanner);
         ResumeUI resumeUI = new ResumeUI(resumeService, scanner);
 
-        MainController mainController = new MainController(authUI, matchJobUI, resumeUI);
+        MainController mainController = new MainController(authUI, matchJobUI, resumeUI, scanner);
+
         mainController.app();
 
     }
+
 }

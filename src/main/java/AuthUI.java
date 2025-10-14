@@ -15,24 +15,19 @@ public class AuthUI {
         while (true) {
         System.out.println("1. Login");
         System.out.println("2. Register");
+        System.out.println("3. Exit");
         System.out.print("Choose an Option: ");
         String choice = scanner.nextLine();
 
-        User user = switch (choice) {
-            case "1" -> loginInput();
-            case "2" -> registerInput();
-            case "0" -> {
-                System.out.println("Bye");
-                yield null;
-            }
-            default -> {
-                System.out.println("Invalid choice, try again.");
-                yield null;
-            }
-        };
-
-        if (user != null) {
-            return user;
+        switch (choice) {
+            case "1":
+                return loginInput();
+            case "2":
+                return registerInput();
+            case "3":
+                return null;
+            default:
+                System.out.println("Invalid input try again");
         }
 
         }
@@ -58,9 +53,9 @@ public class AuthUI {
 
         // Prompt the user for username and password
 
-        // Call authService.login(username, password)
+        // Call authService.login(username, password) => Return a user object
 
-        // return the object from authService
+        // return the user Object from authService
 
         // if authService.login(username, password) returned null
             // Print that the login credential is invalid
@@ -78,7 +73,9 @@ public class AuthUI {
 
         // Prompt for name, email, password, age,
 
-        // Call authService.register(name, email, password, age)
+        // Call authService.register(name, email, password, age) => Return a user object
+
+        // return the user Object from authService
 
         // Delete ---------
         return new User();

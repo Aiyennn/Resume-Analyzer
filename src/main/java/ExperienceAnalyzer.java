@@ -56,7 +56,7 @@ public class ExperienceAnalyzer implements Analyzers{
     }
 
     @Override
-    public double aggregatePoints(ResumeSection resumeSection) {
+    public double analyze(ResumeSection resumeSection) {
         return 0;
     }
 }

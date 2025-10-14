@@ -2,6 +2,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Education extends ResumeSection {
+
+    // Credentials
     private String degree;
     private String school;
 
@@ -11,5 +13,14 @@ public class Education extends ResumeSection {
         this.school = school;
         this.achievements = new ArrayList<>();
     }
+
+    public String getDegree() {
+        return degree;
+    }
+
+    public String getSchool() {
+        return school;
+    }
+
 
 }
