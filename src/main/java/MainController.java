@@ -24,7 +24,14 @@ public class MainController {
             return;
         }
 
-        mainMenu(currentUser);
+        if (currentUser instanceof JobSeeker) {
+            mainMenu(currentUser);
+        }
+
+        if (currentUser instanceof  Employer) {
+            employerMenu(currentUser);
+        }
+
 
         }
 
@@ -48,13 +55,40 @@ public class MainController {
                 resumeUI.displayMenu((JobSeeker) user);
                 break;
             case "2":
-                matchJobUI.displayMenu(user);
+                matchJobUI.displayMenu((JobSeeker) user);
                 break;
             case "3":
                 return;
         }
 
     }
+    }
+
+    public void employerMenu(User user) {
+
+        while (true) {
+
+            System.out.println("Hi Employer");
+            System.out.println("1. Post Job");
+            System.out.println("2. View Posted Jobs");
+            System.out.println("3. Logout");
+
+            System.out.println("Select a Choice");
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1":
+                    matchJobUI.inputPostJob((Employer) user);
+                    break;
+                case "2":
+                    matchJobUI.displayPostedJobs((Employer) user);
+                    break;
+                case "3":
+                    return;
+            }
+
+        }
+
     }
 
 

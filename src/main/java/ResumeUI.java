@@ -1,5 +1,9 @@
+import com.sun.security.jgss.GSSUtil;
+
+import javax.swing.text.html.HTMLDocument;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ResumeUI {
@@ -51,7 +55,74 @@ public class ResumeUI {
             startDate = LocalDate.now();
         }
 
+        ArrayList<String> achievements = inputAchivements();
+        String skill = inputCredential("skill");
+        String proficiency = inputCredential("proficiency");
 
+        resumeService.addSkill(startDate, achievements, skill, proficiency, user);
+
+    }
+
+    public void inputExperience(JobSeeker user) {
+
+        LocalDate startDate;
+        LocalDate endDate;
+
+        try {
+            System.out.print("Enter start date (YYYY-MM-DD): ");
+            startDate = LocalDate.parse(scanner.nextLine().trim());
+            System.out.println("Enter end date (2003-10-30): ");
+            endDate = LocalDate.parse(scanner.nextLine().trim());
+        } catch (Exception e) {
+            startDate = LocalDate.now();
+            endDate = LocalDate.now();
+        }
+
+        ArrayList<String> achievements = inputAchivements();
+        String role = inputCredential("role");
+        String company = inputCredential("company");
+
+        resumeService.addExperience(startDate, endDate, achievements, role, company, user);
+
+    }
+
+    public void inputEducation(JobSeeker user) {
+
+        LocalDate startDate;
+        LocalDate endDate;
+        try {
+            System.out.print("Enter start date (YYYY-MM-DD): ");
+            startDate = LocalDate.parse(scanner.nextLine().trim());
+            System.out.println("Enter end date (2003-10-30): ");
+            endDate = LocalDate.parse(scanner.nextLine().trim());
+        } catch (Exception e) {
+            startDate = LocalDate.now();
+            endDate = LocalDate.now();
+        }
+
+        ArrayList<String> achievements = inputAchivements();
+        String degree = inputCredential("degree");
+        String school = inputCredential("school");
+
+        resumeService.addEducation(startDate, endDate, achievements, degree, school, user);
+
+    }
+
+    public void displayResume(User user) {
+
+        Resume resume = user.getResume();
+        List<Education> educations = resume.getEducations();
+        List<Skill> skills = resume.getSkills();
+        List<Experience> experiences = resume.getExperiences();
+
+        Util.displaySection(educations);
+        Util.displaySection(skills);
+        Util.displaySection(experiences);
+
+
+    }
+
+    private ArrayList<String> inputAchivements() {
 
         ArrayList<String> achievements = new ArrayList<>();
         System.out.println("Enter your achievements (type 'done' to finish):");
@@ -67,66 +138,21 @@ public class ResumeUI {
             }
         }
 
-        String skill = "";
-        while (skill.isEmpty()) {
-            System.out.print("Enter a skill: ");
-            skill = scanner.nextLine().trim();
-            if (skill.isEmpty()) {
-                System.out.println("⚠️ Skill cannot be empty.");
+        return achievements;
+    }
+
+    private String inputCredential(String type) {
+
+        String credential = "";
+        while (credential.isEmpty()) {
+            System.out.print("Enter a " + type + ": ");
+            credential = scanner.nextLine().trim();
+            if (credential.isEmpty()) {
+                System.out.println("⚠️ " + type + " cannot be empty.");
             }
         }
 
-        String proficiency = "";
-        while (proficiency.isEmpty()) {
-            System.out.print("Enter your proficiency level (e.g., Beginner, Intermediate, Expert): ");
-            proficiency = scanner.nextLine().trim();
-            if (proficiency.isEmpty()) {
-                System.out.println("⚠️ Proficiency cannot be empty.");
-            }
-        }
-
-        resumeService.addSkill(startDate, achievements, skill, proficiency, user);
-
-//         Prompt the user for:  /!\ Ensure that the input are correct and avoid crashing when unexpected input
-//         LocaleDate startDate
-//         ArrayList<String> achievements
-//         String skill
-//         String proficiency
-
-//        resumeService.addSkill(startDate, achievements, skill, proficiency, user);
-
-    }
-
-    public void inputExperience(User user) {
-
-//         Prompt the user for:  /!\ Ensure that the input are correct and avoid crashing when unexpected input
-//         LocaleDate Start date
-//         LocaleDate End date
-//         ArrayList<String> achievements
-//         String role
-//         String company
-
-//        resumeService.addExperience(startDate, endDate, achievements, role, company, user);
-
-    }
-
-    public void inputEducation(User user) {
-
-//         Prompt the user for:  /!\ Ensure that the input are correct and avoid crashing when unexpected input
-//         LocaleDate Start date
-//         LocaleDate End date
-//         ArrayList<String> achievements
-//         String degree
-//         String school
-
-//        resumeService.addExperience(startDate, endDate, achievements, degree, school, user);
-
-    }
-
-    public void displayResume(User user) {
-
-        // Later
-
+        return credential;
     }
 
 }

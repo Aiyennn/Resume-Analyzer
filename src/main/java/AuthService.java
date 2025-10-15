@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class AuthService {
     private Database database;
 
@@ -19,7 +21,8 @@ public class AuthService {
 
     public JobSeeker jobSeekerRegister(String name, String email, String password) {
 
-        JobSeeker jobSeeker = new JobSeeker(name, email, password, null);
+        Resume resume = new Resume();
+        JobSeeker jobSeeker = new JobSeeker(name, email, password, resume);
 
         try {
 
@@ -34,6 +37,40 @@ public class AuthService {
         }
 
         return jobSeeker;
+    }
+
+    public Employer employerLogin(String email, String password) {
+
+        try {
+            return database.getEmployerByEmail(email, password);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+
+    }
+
+    public Employer employerRegister(String name, String email, String password) {
+
+        ArrayList<JobDescription> jobDescriptions = new ArrayList<>();
+        Employer employer = new Employer(name, email, password, jobDescriptions);
+
+        try {
+
+            if (database.employerExists(email)) {
+                System.out.println("User already exists please login");
+                return null;
+            }
+
+            database.saveEmployer(employer);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return employer;
+
     }
 
 }
