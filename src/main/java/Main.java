@@ -6,7 +6,7 @@ public class Main {
 
 
         Scanner scanner = new Scanner(System.in);
-        Database database = new Database();
+        Database database = new Database("employer.csv", "jobSeeker.csv");
 
         JobKeywords jobKeywords = new JobKeywords();
         EducationAnalyzer educationAnalyzer = new EducationAnalyzer(jobKeywords);
