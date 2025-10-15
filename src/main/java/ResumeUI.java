@@ -1,5 +1,9 @@
+import com.sun.security.jgss.GSSUtil;
+
+import javax.swing.text.html.HTMLDocument;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ResumeUI {
@@ -41,17 +45,47 @@ public class ResumeUI {
 
     }
 
-    public void inputSkills(JobSeeker user) {
+    public void inputSkills(User user) {
+
+//         Prompt the user for:  /!\ Ensure that the input are correct and avoid crashing when unexpected input
+//         LocaleDate startDate
+//         ArrayList<String> achievements
+//         String skill
+//         String proficiency
+
+//        resumeService.addSkill(startDate, achievements, skill, proficiency, user);
+
+    }
+
+    public void inputExperience(JobSeeker user) {
+
+
+//         Prompt the user for:  /!\ Ensure that the input are correct and avoid crashing when unexpected input
+//         LocaleDate Start date
+//         LocaleDate End date
+//         ArrayList<String> achievements
+//         String role
+//         String company
+
+//        resumeService.addExperience(startDate, endDate, achievements, role, company, user);
 
         LocalDate startDate;
         try {
             System.out.print("Enter start date (YYYY-MM-DD): ");
             startDate = LocalDate.parse(scanner.nextLine().trim());
         } catch (Exception e) {
+            System.out.println("⚠️ Invalid date. Defaulting to today's date.");
             startDate = LocalDate.now();
         }
 
-
+        LocalDate endDate;
+        try {
+            System.out.print("Enter end date (YYYY-MM-DD): ");
+            endDate = LocalDate.parse(scanner.nextLine().trim());
+        } catch (Exception e) {
+            System.out.println("⚠️ Invalid date. Defaulting to today's date.");
+            endDate = LocalDate.now();
+        }
 
         ArrayList<String> achievements = new ArrayList<>();
         System.out.println("Enter your achievements (type 'done' to finish):");
@@ -67,50 +101,29 @@ public class ResumeUI {
             }
         }
 
-        String skill = "";
-        while (skill.isEmpty()) {
-            System.out.print("Enter a skill: ");
-            skill = scanner.nextLine().trim();
-            if (skill.isEmpty()) {
-                System.out.println("⚠️ Skill cannot be empty.");
+        String role = "";
+        while (role.isEmpty()) {
+            System.out.print("Enter your role: ");
+            role = scanner.nextLine().trim();
+            if (role.isEmpty()) {
+                System.out.println("⚠️ Role cannot be empty.");
             }
         }
 
-        String proficiency = "";
-        while (proficiency.isEmpty()) {
-            System.out.print("Enter your proficiency level (e.g., Beginner, Intermediate, Expert): ");
-            proficiency = scanner.nextLine().trim();
-            if (proficiency.isEmpty()) {
-                System.out.println("⚠️ Proficiency cannot be empty.");
+        String company = "";
+        while (company.isEmpty()) {
+            System.out.print("Enter company name: ");
+            company = scanner.nextLine().trim();
+            if (company.isEmpty()) {
+                System.out.println("⚠️ Company name cannot be empty.");
             }
         }
 
-        resumeService.addSkill(startDate, achievements, skill, proficiency, user);
-
-//         Prompt the user for:  /!\ Ensure that the input are correct and avoid crashing when unexpected input
-//         LocaleDate startDate
-//         ArrayList<String> achievements
-//         String skill
-//         String proficiency
-
-//        resumeService.addSkill(startDate, achievements, skill, proficiency, user);
+        resumeService.addExperience(startDate, endDate, achievements, role, company, user);
 
     }
 
-    public void inputExperience(User user) {
-
-//         Prompt the user for:  /!\ Ensure that the input are correct and avoid crashing when unexpected input
-//         LocaleDate Start date
-//         LocaleDate End date
-//         ArrayList<String> achievements
-//         String role
-//         String company
-
-//        resumeService.addExperience(startDate, endDate, achievements, role, company, user);
-
-    }
-
-    public void inputEducation(User user) {
+    public void inputEducation(JobSeeker user) {
 
 //         Prompt the user for:  /!\ Ensure that the input are correct and avoid crashing when unexpected input
 //         LocaleDate Start date
@@ -121,11 +134,71 @@ public class ResumeUI {
 
 //        resumeService.addExperience(startDate, endDate, achievements, degree, school, user);
 
+        LocalDate startDate;
+        try {
+            System.out.print("Enter start date (YYYY-MM-DD): ");
+            startDate = LocalDate.parse(scanner.nextLine().trim());
+        } catch (Exception e) {
+            System.out.println("⚠️ Invalid date. Defaulting to today's date.");
+            startDate = LocalDate.now();
+        }
+
+        LocalDate endDate;
+        try {
+            System.out.print("Enter end date (YYYY-MM-DD): ");
+            endDate = LocalDate.parse(scanner.nextLine().trim());
+        } catch (Exception e) {
+            System.out.println("⚠️ Invalid date. Defaulting to today's date.");
+            endDate = LocalDate.now();
+        }
+
+        ArrayList<String> achievements = new ArrayList<>();
+        System.out.println("Enter your academic achievements (type 'done' to finish):");
+        while (true) {
+            System.out.print("> ");
+            String achievement = scanner.nextLine().trim();
+            if (achievement.equalsIgnoreCase("done")) {
+                break;
+            } else if (!achievement.isEmpty()) {
+                achievements.add(achievement);
+            } else {
+                System.out.println("Please enter a valid text or 'done' to stop.");
+            }
+        }
+
+        String degree = "";
+        while (degree.isEmpty()) {
+            System.out.print("Enter your degree (e.g., BS Computer Science): ");
+            degree = scanner.nextLine().trim();
+            if (degree.isEmpty()) {
+                System.out.println("⚠️ Degree cannot be empty.");
+            }
+        }
+
+        String school = "";
+        while (school.isEmpty()) {
+            System.out.print("Enter your school name: ");
+            school = scanner.nextLine().trim();
+            if (school.isEmpty()) {
+                System.out.println("⚠️ School name cannot be empty.");
+            }
+        }
+
+        resumeService.addEducation(startDate, endDate, achievements, degree, school, user);
+
     }
 
     public void displayResume(User user) {
 
-        // Later
+        Resume resume = user.getResume();
+        List<Education> educations = resume.getEducations();
+        List<Skill> skills = resume.getSkills();
+        List<Experience> experiences = resume.getExperiences();
+
+        Util.displaySection(educations);
+        Util.displaySection(skills);
+        Util.displaySection(experiences);
+
 
     }
 

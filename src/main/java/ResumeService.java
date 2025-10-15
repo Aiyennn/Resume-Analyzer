@@ -17,7 +17,7 @@ public class ResumeService {
         user.addSection(newSkill);
 
         try {
-        database.updateJobSeeker(user);
+            database.updateJobSeeker(user);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -28,17 +28,30 @@ public class ResumeService {
                                ArrayList<String> achievements,
                                String role,
                                String company,
-                               User user) {
+                               JobSeeker user) {
         Experience newExperience = new Experience(start, end, achievements, role, company);
         user.addSection(newExperience);
+
+        try {
+            database.updateJobSeeker(user);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void addEducation (LocalDate start,
                               LocalDate end,
                               ArrayList<String> achievements,
                               String degree,
-                              String school, User user) {
+                              String school, 
+                              JobSeeker user) {
         Education newEducation = new Education(start, end, achievements, degree, school);
         user.addSection(newEducation);
+
+        try {
+            database.updateJobSeeker(user);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

@@ -40,7 +40,7 @@ public class MainController {
         System.out.println("2. Match Jobs");
         System.out.println("3. Logout");
 
-        System.out.println("Select a Choice");
+        System.out.print("Select a Choice: ");
         String choice = scanner.nextLine();
 
         switch (choice) {
