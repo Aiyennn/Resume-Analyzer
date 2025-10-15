@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Employer extends User{
-    ArrayList<JobDescription> jobDescriptions;
+    private ArrayList<JobDescription> jobDescriptions;
 
     public Employer(String name, String password, String email, ArrayList<JobDescription> jobDescriptions) {
         super(name, password, email);
@@ -9,4 +9,14 @@ public class Employer extends User{
     }
 
     public Employer() {}
+
+    public ArrayList<JobDescription> getJobDescriptions() {
+        return jobDescriptions;
+    }
+
+
+    public void addJobDescription(JobDescription jobDescription) {
+        jobDescriptions.add(jobDescription);
+    }
+
 }

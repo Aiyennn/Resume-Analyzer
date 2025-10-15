@@ -13,14 +13,7 @@ public class ResumeService {
                           String skill,
                           String proficiency,
                           JobSeeker user) {
-        Skill newSkill = new Skill(start, achievements, skill, proficiency);
-        user.addSection(newSkill);
-
-        try {
-            database.updateJobSeeker(user);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        addSection(new Skill(start, achievements, skill, proficiency), user);
     }
 
     public void addExperience (LocalDate start,
@@ -29,29 +22,25 @@ public class ResumeService {
                                String role,
                                String company,
                                JobSeeker user) {
-        Experience newExperience = new Experience(start, end, achievements, role, company);
-        user.addSection(newExperience);
-
-        try {
-            database.updateJobSeeker(user);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        addSection(new Experience(start, end, achievements, role, company), user);
     }
 
     public void addEducation (LocalDate start,
                               LocalDate end,
                               ArrayList<String> achievements,
                               String degree,
-                              String school, 
-                              JobSeeker user) {
-        Education newEducation = new Education(start, end, achievements, degree, school);
-        user.addSection(newEducation);
+                              String school, JobSeeker user) {
+        addSection(new Education(start, end, achievements, degree, school), user);
+    }
+
+    private void addSection(ResumeSection section, JobSeeker user) {
+
+        user.addSection(section);
 
         try {
             database.updateJobSeeker(user);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error updating job seeker: " + e.getMessage());
         }
     }
 }

@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -23,24 +24,51 @@ public class MatchJobUI {
         // Print shit
     }
 
-    public void postJob() {
+    public void inputPostJob(Employer user) {
 
-//        Prompt for skillQualifications, educationQualification, experienceQualification
-//        Title
 
-//        matchJobService.postJob(skillQualifications, educationQualification, experienceQualification title);
+        System.out.print("Input title for the job: ");
+        String title = scanner.nextLine();
+        ArrayList<String> skillQualifications = inputQualifications("Skill");
+        ArrayList<String> educationQualification = inputQualifications("Education");
+        ArrayList<String> experienceQualification = inputQualifications("Experience");
 
+        matchJobService.postJob(skillQualifications, educationQualification, experienceQualification, title, user);
 
     }
 
+    public ArrayList<String> inputQualifications(String type) {
 
-//    String title;
-//    ArrayList<String> skillQualification;
-//    ArrayList<String> educationQualification;
-//    ArrayList<String> experienceQualification;
+        ArrayList<String> qualifications = new ArrayList<>();
+        System.out.println("Enter " + qualifications + " requirements (type 'done' to finish):");
+        while (true) {
+            System.out.print("> ");
+            String achievement = scanner.nextLine().trim();
+            if (achievement.equalsIgnoreCase("done")) {
+                break;
+            } else if (!achievement.isEmpty()) {
+                qualifications.add(achievement);
+            } else {
+                System.out.println("Please enter a valid text or 'done' to stop.");
+            }
+        }
 
-//    public void displaySavedJobs(){
-//
-//    }
+        return qualifications;
+    }
+
+
+    public void displayPostedJobs(Employer employer) {
+
+        System.out.println("I'm here");
+        ArrayList<JobDescription> postedJobs = employer.getJobDescriptions();
+
+        for (JobDescription jobDescription : postedJobs) {
+            Util.printBanner(jobDescription.getTitle());
+            System.out.println("Skill Requirements: " + jobDescription.getSkillQualification());
+            System.out.println("Experience Requirements: " + jobDescription.getExperienceQualification());
+            System.out.println("Education Requirements: " + jobDescription.getEducationQualification());
+        }
+
+    }
 
 }

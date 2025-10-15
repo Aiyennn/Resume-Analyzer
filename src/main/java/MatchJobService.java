@@ -11,15 +11,24 @@ public class MatchJobService {
         this.database = database;
     }
 
-    public void postJob(ArrayList<Skill> skillQualifications,
-                        ArrayList<Education> educationQualification,
-                        ArrayList<Experience> experienceQualification,
-                        String title) {
+    public void postJob(ArrayList<String> skillQualifications,
+                        ArrayList<String> educationQualification,
+                        ArrayList<String> experienceQualification,
+                        String title, Employer user) {
+
+        JobDescription jobDescription = new JobDescription(
+                title,
+                skillQualifications,
+                educationQualification,
+                experienceQualification
+        );
+
+        user.addJobDescription(jobDescription);
+        database.updateEmployer(user);
 
         // Instantiate
         // Save to db
 
     }
 
-    //
 }

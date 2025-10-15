@@ -2,10 +2,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public abstract class ResumeSection {
-    LocalDate startDate;
-    LocalDate endDate;
+    protected LocalDate startDate;
+    protected LocalDate endDate;
 
-    ArrayList<String> achievements;
+    protected ArrayList<String> achievements;
 
     public ResumeSection(LocalDate startDate, LocalDate endDate, ArrayList<String> achievements) {
         this.startDate = startDate;

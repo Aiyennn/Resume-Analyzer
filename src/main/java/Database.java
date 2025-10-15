@@ -4,6 +4,8 @@ import java.util.*;
 
 public class Database {
 
+    // Main example of abstraction I have no idea how it works
+
     private final String employerFile;
     private final String jobSeekerFile;
 
@@ -41,6 +43,7 @@ public class Database {
         }
     }
 
+    // Fix combine save and update if possible
     public void saveJobSeeker(JobSeeker user) throws IOException {
 
         try (PrintWriter writer = new PrintWriter(new FileWriter(jobSeekerFile, true))) {
@@ -79,19 +82,16 @@ public class Database {
             boolean found = false;
 
             while ((line = reader.readLine()) != null) {
-                // Write header as-is
                 if (isHeader) {
                     writer.println(line);
                     isHeader = false;
                     continue;
                 }
 
-                // Parse current line to check email
                 String[] parts = splitCsvLine(line);
                 if (parts.length >= 3) {
                     String currentEmail = parts[2].replace("\"", "");
 
-                    // If this is the user to update, write new data
                     if (currentEmail.equalsIgnoreCase(user.getEmail())) {
                         String educations = "None";
                         String experiences = "None";
@@ -113,11 +113,9 @@ public class Database {
                                 educations, experiences, skills);
                         found = true;
                     } else {
-                        // Write original line for other users
                         writer.println(line);
                     }
                 } else {
-                    // Write malformed lines as-is
                     writer.println(line);
                 }
             }
@@ -136,7 +134,6 @@ public class Database {
         }
     }
 
-    // save if employer or job seeker =>
     public JobSeeker getJobSeekerByEmail(String email, String passwordInput) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(jobSeekerFile))) {
             String line;
@@ -170,7 +167,7 @@ public class Database {
     }
 
 
-
+    // Swap the name into job seeeker
     public boolean userExists(String email) throws IOException {
 
         try (BufferedReader reader = new BufferedReader(new FileReader(jobSeekerFile))) {
@@ -305,10 +302,181 @@ public class Database {
 
     // --- For Employers ---------------------------------------------------------------------------------------
 
+    // Fix => Combine save and update if possible
     public void saveEmployer(Employer employer) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(employerFile, true))) {
+            // Flatten JobDescription list with null checks
+            ArrayList<JobDescription> jdList = employer.getJobDescriptions();
+            List<String> flattenedJDs = new ArrayList<>();
 
+            if (jdList != null) {
+                for (JobDescription jd : jdList) {
+                    if (jd == null) continue;
 
+                    // Handle null collections
+                    String skills = jd.getSkillQualification() != null
+                            ? String.join(";", jd.getSkillQualification())
+                            : "";
+                    String education = jd.getEducationQualification() != null
+                            ? String.join(";", jd.getEducationQualification())
+                            : "";
+                    String experience = jd.getExperienceQualification() != null
+                            ? String.join(";", jd.getExperienceQualification())
+                            : "";
 
+                    String title = jd.getTitle() != null ? jd.getTitle() : "";
+                    String jdString = title + "|" + skills + "|" + education + "|" + experience;
+                    flattenedJDs.add(jdString);
+                }
+            }
+            String combinedJDs = String.join("#", flattenedJDs);
+
+            // Flatten Employer with null checks
+            String name = employer.getName() != null ? employer.getName() : "";
+            String password = employer.getPassword() != null ? employer.getPassword() : "";
+            String email = employer.getEmail() != null ? employer.getEmail() : "";
+
+            String line = name + "," + password + "," + email + "," + combinedJDs;
+
+            writer.write(line);
+            writer.newLine();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
+    // Ad hoc solution fix later
+    public void updateEmployer(Employer employer) {
+
+        File tempFile = new File("temp_employer_file.txt");
+        File inputFile = new File(employerFile);
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(employerFile));
+             BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",", 4); // split into 4 parts max
+                if (parts.length >= 3 && parts[2].equals(employer.getEmail())) {
+                    // This is the employer to update, flatten it like saveEmployer
+                    ArrayList<JobDescription> jdList = employer.getJobDescriptions();
+                    List<String> flattenedJDs = new ArrayList<>();
+
+                    if (jdList != null) {
+                        for (JobDescription jd : jdList) {
+                            if (jd == null) continue;
+
+                            String skills = jd.getSkillQualification() != null
+                                    ? String.join(";", jd.getSkillQualification())
+                                    : "";
+                            String education = jd.getEducationQualification() != null
+                                    ? String.join(";", jd.getEducationQualification())
+                                    : "";
+                            String experience = jd.getExperienceQualification() != null
+                                    ? String.join(";", jd.getExperienceQualification())
+                                    : "";
+
+                            String title = jd.getTitle() != null ? jd.getTitle() : "";
+                            String jdString = title + "|" + skills + "|" + education + "|" + experience;
+                            flattenedJDs.add(jdString);
+                        }
+                    }
+                    String combinedJDs = String.join("#", flattenedJDs);
+
+                    String name = employer.getName() != null ? employer.getName() : "";
+                    String password = employer.getPassword() != null ? employer.getPassword() : "";
+                    String email = employer.getEmail() != null ? employer.getEmail() : "";
+
+                    line = name + "," + password + "," + email + "," + combinedJDs;
+                }
+
+                writer.write(line);
+                writer.newLine();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        if (!inputFile.delete()) {
+            System.err.println("Could not delete original file");
+            return;
+        }
+        if (!tempFile.renameTo(inputFile)) {
+            System.err.println("Could not rename temp file to original file");
+        }
+
+    }
+    public Employer getEmployerByEmail(String email, String password) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(employerFile))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",", 4); // 4 parts max
+
+                // Handle incomplete lines
+                if (parts.length < 3) continue; // At minimum need name, password, email
+
+                String name = parts[0];
+                String pwd = parts[1];
+                String mail = parts[2];
+                String jdString = parts.length >= 4 ? parts[3] : ""; // Handle missing job descriptions
+
+                if (mail.equals(email) && pwd.equals(password)) {
+                    ArrayList<JobDescription> jdList = new ArrayList<>();
+
+                    // Only parse job descriptions if they exist
+                    if (!jdString.isEmpty()) {
+                        String[] jdArray = jdString.split("#");
+                        for (String jdItem : jdArray) {
+                            if (jdItem.isEmpty()) continue; // Skip empty entries
+
+                            String[] jdParts = jdItem.split("\\|", 4);
+
+                            // Handle incomplete job description data
+                            String title = jdParts.length > 0 ? jdParts[0] : "";
+                            ArrayList<String> skills = jdParts.length > 1 && !jdParts[1].isEmpty()
+                                    ? new ArrayList<>(Arrays.asList(jdParts[1].split(";")))
+                                    : new ArrayList<>();
+                            ArrayList<String> education = jdParts.length > 2 && !jdParts[2].isEmpty()
+                                    ? new ArrayList<>(Arrays.asList(jdParts[2].split(";")))
+                                    : new ArrayList<>();
+                            ArrayList<String> experience = jdParts.length > 3 && !jdParts[3].isEmpty()
+                                    ? new ArrayList<>(Arrays.asList(jdParts[3].split(";")))
+                                    : new ArrayList<>();
+
+                            jdList.add(new JobDescription(title, skills, education, experience));
+                        }
+                    }
+
+                    Employer employer = new Employer(name, pwd, mail, jdList);
+                    return employer;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null; // not found
+    }
+
+    public boolean employerExists(String email) throws IOException {
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(employerFile))) {
+            String line;
+            boolean skipHeader = true;
+            while ((line = reader.readLine()) != null) {
+                if (skipHeader) {
+                    skipHeader = false;
+                    continue;
+                }
+                String[] parts = splitCsvLine(line);
+                if (parts.length >= 3 && parts[2].replace("\"", "").equalsIgnoreCase(email)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
