@@ -45,66 +45,41 @@ public class ResumeUI {
 
     }
 
-    public void inputSkills(JobSeeker user) {
+    public void inputSkills(User user) {
 
-        LocalDate startDate;
-        try {
-            System.out.print("Enter start date (YYYY-MM-DD): ");
-            startDate = LocalDate.parse(scanner.nextLine().trim());
-        } catch (Exception e) {
-            startDate = LocalDate.now();
-        }
+//         Prompt the user for:  /!\ Ensure that the input are correct and avoid crashing when unexpected input
+//         LocaleDate startDate
+//         ArrayList<String> achievements
+//         String skill
+//         String proficiency
 
-        ArrayList<String> achievements = inputAchivements();
-        String skill = inputCredential("skill");
-        String proficiency = inputCredential("proficiency");
-
-        resumeService.addSkill(startDate, achievements, skill, proficiency, user);
+//        resumeService.addSkill(startDate, achievements, skill, proficiency, user);
 
     }
 
-    public void inputExperience(JobSeeker user) {
+    public void inputExperience(User user) {
 
-        LocalDate startDate;
-        LocalDate endDate;
+//         Prompt the user for:  /!\ Ensure that the input are correct and avoid crashing when unexpected input
+//         LocaleDate Start date
+//         LocaleDate End date
+//         ArrayList<String> achievements
+//         String role
+//         String company
 
-        try {
-            System.out.print("Enter start date (YYYY-MM-DD): ");
-            startDate = LocalDate.parse(scanner.nextLine().trim());
-            System.out.println("Enter end date (2003-10-30): ");
-            endDate = LocalDate.parse(scanner.nextLine().trim());
-        } catch (Exception e) {
-            startDate = LocalDate.now();
-            endDate = LocalDate.now();
-        }
-
-        ArrayList<String> achievements = inputAchivements();
-        String role = inputCredential("role");
-        String company = inputCredential("company");
-
-        resumeService.addExperience(startDate, endDate, achievements, role, company, user);
+//        resumeService.addExperience(startDate, endDate, achievements, role, company, user);
 
     }
 
-    public void inputEducation(JobSeeker user) {
+    public void inputEducation(User user) {
 
-        LocalDate startDate;
-        LocalDate endDate;
-        try {
-            System.out.print("Enter start date (YYYY-MM-DD): ");
-            startDate = LocalDate.parse(scanner.nextLine().trim());
-            System.out.println("Enter end date (2003-10-30): ");
-            endDate = LocalDate.parse(scanner.nextLine().trim());
-        } catch (Exception e) {
-            startDate = LocalDate.now();
-            endDate = LocalDate.now();
-        }
+//         Prompt the user for:  /!\ Ensure that the input are correct and avoid crashing when unexpected input
+//         LocaleDate Start date
+//         LocaleDate End date
+//         ArrayList<String> achievements
+//         String degree
+//         String school
 
-        ArrayList<String> achievements = inputAchivements();
-        String degree = inputCredential("degree");
-        String school = inputCredential("school");
-
-        resumeService.addEducation(startDate, endDate, achievements, degree, school, user);
+//        resumeService.addExperience(startDate, endDate, achievements, degree, school, user);
 
     }
 
@@ -120,39 +95,6 @@ public class ResumeUI {
         Util.displaySection(experiences);
 
 
-    }
-
-    private ArrayList<String> inputAchivements() {
-
-        ArrayList<String> achievements = new ArrayList<>();
-        System.out.println("Enter your achievements (type 'done' to finish):");
-        while (true) {
-            System.out.print("> ");
-            String achievement = scanner.nextLine().trim();
-            if (achievement.equalsIgnoreCase("done")) {
-                break;
-            } else if (!achievement.isEmpty()) {
-                achievements.add(achievement);
-            } else {
-                System.out.println("Please enter a valid text or 'done' to stop.");
-            }
-        }
-
-        return achievements;
-    }
-
-    private String inputCredential(String type) {
-
-        String credential = "";
-        while (credential.isEmpty()) {
-            System.out.print("Enter a " + type + ": ");
-            credential = scanner.nextLine().trim();
-            if (credential.isEmpty()) {
-                System.out.println("⚠️ " + type + " cannot be empty.");
-            }
-        }
-
-        return credential;
     }
 
 }
