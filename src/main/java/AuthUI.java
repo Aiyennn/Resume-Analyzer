@@ -47,7 +47,7 @@ public class AuthUI {
 
         System.out.print("Email: ");
         String email = scanner.nextLine();
-        System.out.println("Password: ");
+        System.out.print("Password: ");
         String password = scanner.nextLine();
 
         return authService.jobSeekerlogin(email, password);
