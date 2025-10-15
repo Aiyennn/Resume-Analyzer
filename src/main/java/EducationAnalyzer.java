@@ -3,6 +3,12 @@ import java.util.ArrayList;
 
 public class EducationAnalyzer implements Analyzers {
 
+    JobKeywords job;
+
+    public EducationAnalyzer(JobKeywords jobKeywords) {
+        this.job = jobKeywords;
+    }
+
     @Override
     public double dateRelevance(LocalDate startDate, LocalDate endDate) {
 
@@ -36,21 +42,16 @@ public class EducationAnalyzer implements Analyzers {
         // - credential1: type of degree (e.g., "PhD", "Master", "Bachelor")
         // - credential2: school or institution name
 
-        // Step 2: Assign points based on degree
-        // Example point system:
-        // - PhD -> 1
-        // - Master -> 2
-        // - Bachelor -> 3
-        // - At iba pa ./. -> 0 points
+        // Step 2: Use JobDescription class
+        // - Access predefined arrays such as educationCredentials, educationSchools, and educationAchievements
+        //   Example: job.educationCredentials, job.educationSchools, job.educationAchievements
 
-        // Step 3: Assign points based on school reputation or ranking
-        // Example:
-        // - Top-tier school -> 2 points
-        // - Mid-tier school -> 1 point
-        // - Others -> -25 points
+        // Step 3: Compare the received input with JobDescription arrays
+        // - If credential1 matches any element in job.educationCredentials, assign the corresponding value from job.credentialPoints
+        // - If credential2 matches any element in job.educationSchools, assign the corresponding value from job.schoolPoints
+        // - If credential3 matches any element in job.educationAchievements, assign the corresponding value from job.achievementPoints
 
-        // Step 4: return total points
-
+        // Return the accumulative points
 
         return 0;
     }
@@ -58,10 +59,11 @@ public class EducationAnalyzer implements Analyzers {
     @Override
     public double achievementRelevance(ArrayList<String> achievements) {
 
-        // Step 1: Receive input
-        // achievements: a list of academic recognitions
-        // Kayo mag decide ng points dana
-        // Example: ["President's List", "Dean's List", "Honor Roll"]
+        // Step 1: Take ArrayList<String> of input achievements
+        // Step 2: Compare each entry with job.educationAchievements[]
+        // Step 3: For every match, add corresponding job.educationAchievementPoints[] value
+        // Step 4: Return the total points
+
 
         // return points
         return 0;

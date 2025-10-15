@@ -22,6 +22,7 @@ public class Database {
         }
     }
 
+    // save if employer or job seeker =>
     public static User getUserByEmail(String filename, String email) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line;

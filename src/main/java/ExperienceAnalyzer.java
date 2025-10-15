@@ -3,6 +3,12 @@ import java.util.ArrayList;
 
 public class ExperienceAnalyzer implements Analyzers{
 
+    JobKeywords job;
+
+    public ExperienceAnalyzer(JobKeywords jobKeywords) {
+        this.job = jobKeywords;
+    }
+
 
     @Override
     public double dateRelevance(LocalDate startDate, LocalDate endDate) {
@@ -33,11 +39,11 @@ public class ExperienceAnalyzer implements Analyzers{
         // credential1: the professional position (e.g., "Manager", "Engineer", "Intern")
         // credential2: the name or tier of the organization (e.g., "Google", "Startup", "Local Business")
 
-        // kayo bahala sa points
-        // Manager = 2pts etc
+        // Step 2: Match input position with job.experiencePositions[] and assign job.positionPoints[] value
+        // Step 3: Match input company with job.experienceCompanies[] and assign job.companyPoints[] value
+        // Step 4: Match input achievement with job.experienceAchievements[] and assign job.experienceAchievementPoints[] value
+        // Step 5: Sum all assigned values for total experience score
 
-        // totalPoints = credential1 + credential2
-        // return total points
 
         return 0;
     }
@@ -45,11 +51,11 @@ public class ExperienceAnalyzer implements Analyzers{
     @Override
     public double achievementRelevance(ArrayList<String> achievements) {
 
-        // Step 1: Receive input
-        // achievements: a list of academic recognitions
-        // Kayo mag decide ng points
-        // Ano mga pwedeng achievement sa experience?
-        // Example: ["Employee of the month", "Trespassing", "Scammer"]
+        // Step 1: Take ArrayList<String> of input achievements
+        // Step 2: Compare each entry with job.experienceAchievements[]
+        // Step 3: For every match, add corresponding job.experienceAchievementPoints[] value
+        // Step 4: Return the total points
+
 
         // return points
         return 0;

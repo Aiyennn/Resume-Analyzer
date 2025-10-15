@@ -8,8 +8,13 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         Database database = new Database();
 
+        JobKeywords jobKeywords = new JobKeywords();
+        EducationAnalyzer educationAnalyzer = new EducationAnalyzer(jobKeywords);
+        ExperienceAnalyzer experienceAnalyzer = new ExperienceAnalyzer(jobKeywords);
+        SkillAnalyzer skillAnalyzer = new SkillAnalyzer(jobKeywords);
+
+        MatchJobService matchJobService = new MatchJobService(database, educationAnalyzer, experienceAnalyzer, skillAnalyzer);
         AuthService authService = new AuthService(database);
-        MatchJobService matchJobService = new MatchJobService(database);
         ResumeService resumeService = new ResumeService(database);
 
         AuthUI authUI = new AuthUI(authService, scanner);
