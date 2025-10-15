@@ -1,18 +1,24 @@
 import java.util.Date;
 
 public class User {
-    public User(String name, int age, String password, String email, Resume resume) {
+    public User(String name, String password, String email, Resume resume) {
         this.name = name;
-        this.age = age;
         this.password = password;
         this.email = email;
         this.resume = resume;
     }
 
+    // For Employer
+    public User(String name, String password, String email) {
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.resume = null;
+    }
+
     public User() {}
 
     protected String name;
-    protected int age;
     protected String password;
     protected String email;
     protected Resume resume;
@@ -21,11 +27,6 @@ public class User {
     public String getName() {
         return name;
     }
-
-    public int getAge() {
-        return age;
-    }
-
     public String getPassword() {
         return password;
     }

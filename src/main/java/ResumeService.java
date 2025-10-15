@@ -12,9 +12,15 @@ public class ResumeService {
                           ArrayList<String> achievements,
                           String skill,
                           String proficiency,
-                          User user) {
+                          JobSeeker user) {
         Skill newSkill = new Skill(start, achievements, skill, proficiency);
         user.addSection(newSkill);
+
+        try {
+        database.updateJobSeeker(user);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void addExperience (LocalDate start,

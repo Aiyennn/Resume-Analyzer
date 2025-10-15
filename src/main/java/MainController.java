@@ -20,6 +20,7 @@ public class MainController {
         User currentUser = authUI.displayMenu();
 
         if (currentUser == null) {
+            System.out.println("User not found");
             return;
         }
 
@@ -44,7 +45,7 @@ public class MainController {
 
         switch (choice) {
             case "1":
-                resumeUI.displayMenu(user);
+                resumeUI.displayMenu((JobSeeker) user);
                 break;
             case "2":
                 matchJobUI.displayMenu(user);

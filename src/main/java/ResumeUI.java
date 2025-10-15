@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ResumeUI {
@@ -9,7 +11,7 @@ public class ResumeUI {
         this.scanner = scanner;
     }
 
-    public void displayMenu(User user) {
+    public void displayMenu(JobSeeker user) {
 
         System.out.println("1. Input Skills");
         System.out.println("2. Input Experience");
@@ -39,7 +41,51 @@ public class ResumeUI {
 
     }
 
-    public void inputSkills(User user) {
+    public void inputSkills(JobSeeker user) {
+
+        LocalDate startDate;
+        try {
+            System.out.print("Enter start date (YYYY-MM-DD): ");
+            startDate = LocalDate.parse(scanner.nextLine().trim());
+        } catch (Exception e) {
+            startDate = LocalDate.now();
+        }
+
+
+
+        ArrayList<String> achievements = new ArrayList<>();
+        System.out.println("Enter your achievements (type 'done' to finish):");
+        while (true) {
+            System.out.print("> ");
+            String achievement = scanner.nextLine().trim();
+            if (achievement.equalsIgnoreCase("done")) {
+                break;
+            } else if (!achievement.isEmpty()) {
+                achievements.add(achievement);
+            } else {
+                System.out.println("Please enter a valid text or 'done' to stop.");
+            }
+        }
+
+        String skill = "";
+        while (skill.isEmpty()) {
+            System.out.print("Enter a skill: ");
+            skill = scanner.nextLine().trim();
+            if (skill.isEmpty()) {
+                System.out.println("⚠️ Skill cannot be empty.");
+            }
+        }
+
+        String proficiency = "";
+        while (proficiency.isEmpty()) {
+            System.out.print("Enter your proficiency level (e.g., Beginner, Intermediate, Expert): ");
+            proficiency = scanner.nextLine().trim();
+            if (proficiency.isEmpty()) {
+                System.out.println("⚠️ Proficiency cannot be empty.");
+            }
+        }
+
+        resumeService.addSkill(startDate, achievements, skill, proficiency, user);
 
 //         Prompt the user for:  /!\ Ensure that the input are correct and avoid crashing when unexpected input
 //         LocaleDate startDate

@@ -5,32 +5,35 @@ public class AuthService {
         this.database = database;
     }
 
-    public User login(String email, String password) {
+    public JobSeeker jobSeekerlogin(String email, String password) {
 
-        // Check if user exists
+        try {
+            JobSeeker user = database.getJobSeekerByEmail(email, password);
+            return user;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        // compare the encrypt password
-
-        // return User
-
-        // if user doesn't exists return null
-
-        // Delete ---------
-        return new User();
-        // Delete ---------
+        return null;
     }
 
-    public User register(String name, String email, String password, int age, String role) {
+    public JobSeeker jobSeekerRegister(String name, String email, String password) {
 
-        // email must be unique
+        JobSeeker jobSeeker = new JobSeeker(name, email, password, null);
 
-        // Save to db
+        try {
 
-        // return user
+            if (database.userExists(email)) {
+                System.out.println("User already exists please login");
+                return null;
+            }
 
-        // Delete ---------
-        return new User();
-        // Delete ---------
+            database.saveJobSeeker(jobSeeker);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return jobSeeker;
     }
 
 }

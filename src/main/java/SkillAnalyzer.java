@@ -3,6 +3,11 @@ import java.util.ArrayList;
 
 public class SkillAnalyzer implements Analyzers{
 
+    JobKeywords job;
+
+    public SkillAnalyzer(JobKeywords jobKeywords) {
+        this.job = jobKeywords;
+    }
 
     @Override
     public double dateRelevance(LocalDate startDate, LocalDate endDate) {
@@ -29,29 +34,23 @@ public class SkillAnalyzer implements Analyzers{
         // - proficiency: level of expertise (e.g., "Expert", "Intermediate", "Beginner")
         // - skill: type of skill or technology (e.g., "Java", "Python", "Excel")
 
-        // Step 2: Assign points
-        // - Expert -> 3 points
-        // - Intermediate -> 2 points
-        // - Beginner -> 1 point
-        // - Unknown / unrecognized -> 0 points
-
-        // Step 3: Assign points based on skill relevance
-        // - High-demand skill -> 2 points
-        // - Medium-demand skill -> 1 point
-        // - Low-demand / generic skill -> 0 points
+        // Step 2: Match input proficiency with job.skillProficiencies[] and assign job.proficiencyPoints[] value
+        // Step 3: Match input technology with job.skillTechnologies[] and assign job.technologyPoints[] value
+        // Step 4: Sum both for total skill score
 
 
         // return points
+
         return 0;
     }
 
     @Override
     public double achievementRelevance(ArrayList<String> achievements) {
 
-        // Step 1: Receive input
-        // achievements: a list of skill certificates or recognitions
-        // Di ko alam pano to | Suggest kayo
-        // Example: ["Certified Java Developer", "Completed Online Training"]
+        // Step 1: Take ArrayList<String> of input achievements
+        // Step 2: Compare each entry with job.skillAchievements[]
+        // Step 3: For every match, add corresponding job.skillAchievementPoints[] value
+        // Step 4: Return the total points
 
         return 0;
     }

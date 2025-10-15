@@ -4,26 +4,141 @@ import java.util.*;
 
 public class Database {
 
-    public static void saveUser(User user, String filename) throws IOException {
-        boolean fileExists = new File(filename).exists();
+    private final String employerFile;
+    private final String jobSeekerFile;
 
-        try (PrintWriter writer = new PrintWriter(new FileWriter(filename, true))) {
-            if (!fileExists) {
-                writer.println("name,age,password,email,educations,experiences,skills");
+    public Database(String employerFile, String jobSeekerFile) {
+
+        this.employerFile = employerFile;
+        this.jobSeekerFile = jobSeekerFile;
+
+        try {
+            File employerCSV = new File(employerFile);
+            File jobSeekerCSV = new File(jobSeekerFile);
+
+            if (!employerCSV.exists()) {
+                try (FileWriter writer = new FileWriter(employerCSV)) {
+                    writer.write("Name,Password,Email,Job Title,Skill Qualification,Education Qualification,Experience Qualification\n");
+                }
+                System.out.println("📁 Created file: " + employerFile);
+            } else {
+                System.out.println("✔ Found existing file: " + employerFile);
             }
 
-            String educations = encodeEducations(user.getResume().getEducations());
-            String experiences = encodeExperiences(user.getResume().getExperiences());
-            String skills = encodeSkills(user.getResume().getSkills());
+            if (!jobSeekerCSV.exists()) {
+                try (FileWriter writer = new FileWriter(jobSeekerCSV)) {
+                    writer.write("Name,Password,Email,Skills,Education,Experience\n");
+                }
+                System.out.println("📁 Created file: " + jobSeekerFile);
+            } else {
+                System.out.println("✔ Found existing file: " + jobSeekerFile);
+            }
 
-            writer.printf("\"%s\",%d,\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"%n",
-                    user.getName(), user.getAge(), user.getPassword(), user.getEmail(),
+            System.out.println("\n\n");
+
+        } catch (IOException e) {
+            System.err.println("Error checking or creating CSV files: " + e.getMessage());
+        }
+    }
+
+    public void saveJobSeeker(JobSeeker user) throws IOException {
+
+        try (PrintWriter writer = new PrintWriter(new FileWriter(jobSeekerFile, true))) {
+
+            String educations = "None";
+            String experiences = "None";
+            String skills = "None";
+
+            if (user.getResume() != null) {
+                if (user.getResume().getEducations() != null)
+                    educations = encodeEducations(user.getResume().getEducations());
+
+                if (user.getResume().getExperiences() != null)
+                    experiences = encodeExperiences(user.getResume().getExperiences());
+
+                if (user.getResume().getSkills() != null)
+                    skills = encodeSkills(user.getResume().getSkills());
+            }
+
+            writer.printf("\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"%n",
+                    user.getName(), user.getPassword(), user.getEmail(),
                     educations, experiences, skills);
         }
     }
 
-    public static User getUserByEmail(String filename, String email) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+    // Ad hoc solution dana fix it later
+    public void updateJobSeeker(JobSeeker user) throws IOException {
+        File inputFile = new File(jobSeekerFile);
+        File tempFile = new File(jobSeekerFile + ".tmp");
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+             PrintWriter writer = new PrintWriter(new FileWriter(tempFile))) {
+
+            String line;
+            boolean isHeader = true;
+            boolean found = false;
+
+            while ((line = reader.readLine()) != null) {
+                // Write header as-is
+                if (isHeader) {
+                    writer.println(line);
+                    isHeader = false;
+                    continue;
+                }
+
+                // Parse current line to check email
+                String[] parts = splitCsvLine(line);
+                if (parts.length >= 3) {
+                    String currentEmail = parts[2].replace("\"", "");
+
+                    // If this is the user to update, write new data
+                    if (currentEmail.equalsIgnoreCase(user.getEmail())) {
+                        String educations = "None";
+                        String experiences = "None";
+                        String skills = "None";
+
+                        if (user.getResume() != null) {
+                            if (user.getResume().getEducations() != null)
+                                educations = encodeEducations(user.getResume().getEducations());
+
+                            if (user.getResume().getExperiences() != null)
+                                experiences = encodeExperiences(user.getResume().getExperiences());
+
+                            if (user.getResume().getSkills() != null)
+                                skills = encodeSkills(user.getResume().getSkills());
+                        }
+
+                        writer.printf("\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"%n",
+                                user.getName(), user.getPassword(), user.getEmail(),
+                                educations, experiences, skills);
+                        found = true;
+                    } else {
+                        // Write original line for other users
+                        writer.println(line);
+                    }
+                } else {
+                    // Write malformed lines as-is
+                    writer.println(line);
+                }
+            }
+
+            if (!found) {
+                throw new IOException("Job seeker with email " + user.getEmail() + " not found");
+            }
+        }
+
+        // Replace original file with updated file
+        if (!inputFile.delete()) {
+            throw new IOException("Could not delete original file");
+        }
+        if (!tempFile.renameTo(inputFile)) {
+            throw new IOException("Could not rename temp file");
+        }
+    }
+
+    // save if employer or job seeker =>
+    public JobSeeker getJobSeekerByEmail(String email, String passwordInput) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(jobSeekerFile))) {
             String line;
             boolean skipHeader = true;
 
@@ -34,29 +149,31 @@ public class Database {
                 }
 
                 String[] parts = splitCsvLine(line);
-                if (parts.length < 7) continue;
+                if (parts.length < 6) continue;
 
-                String currentEmail = parts[3].replace("\"", "");
+                String currentEmail = parts[2].replace("\"", "");
                 if (currentEmail.equalsIgnoreCase(email)) {
 
                     String name = parts[0].replace("\"", "");
-                    int age = Integer.parseInt(parts[1]);
-                    String password = parts[2].replace("\"", "");
+                    String password = parts[1].replace("\"", "");
 
-                    List<Education> educations = decodeEducations(parts[4]);
-                    List<Experience> experiences = decodeExperiences(parts[5]);
-                    List<Skill> skills = decodeSkills(parts[6]);
+                    List<Education> educations = decodeEducations(parts[3]);
+                    List<Experience> experiences = decodeExperiences(parts[4]);
+                    List<Skill> skills = decodeSkills(parts[5]);
 
                     Resume resume = new Resume(educations, experiences, skills);
-                    return new User(name, age, password, currentEmail, resume);
+                    return new JobSeeker(name, password, currentEmail, resume);
                 }
             }
         }
         return null;
     }
 
-    public static boolean userExists(String filename, String email) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+
+
+    public boolean userExists(String email) throws IOException {
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(jobSeekerFile))) {
             String line;
             boolean skipHeader = true;
             while ((line = reader.readLine()) != null) {
@@ -65,7 +182,7 @@ public class Database {
                     continue;
                 }
                 String[] parts = splitCsvLine(line);
-                if (parts.length >= 4 && parts[3].replace("\"", "").equalsIgnoreCase(email)) {
+                if (parts.length >= 3 && parts[2].replace("\"", "").equalsIgnoreCase(email)) {
                     return true;
                 }
             }
@@ -75,7 +192,7 @@ public class Database {
 
     // --- Encoding/Decoding Helpers ---
 
-    private static String encodeEducations(List<Education> list) {
+    private String encodeEducations(List<Education> list) {
         if (list == null) return "";
         List<String> encoded = new ArrayList<>();
         for (Education e : list) {
@@ -87,7 +204,7 @@ public class Database {
         return String.join(";", encoded);
     }
 
-    private static String encodeExperiences(List<Experience> list) {
+    private String encodeExperiences(List<Experience> list) {
         if (list == null) return "";
         List<String> encoded = new ArrayList<>();
         for (Experience e : list) {
@@ -99,7 +216,7 @@ public class Database {
         return String.join(";", encoded);
     }
 
-    private static String encodeSkills(List<Skill> list) {
+    private String encodeSkills(List<Skill> list) {
         if (list == null) return "";
         List<String> encoded = new ArrayList<>();
         for (Skill s : list) {
@@ -113,7 +230,7 @@ public class Database {
 
     // --- Decoding Section ---
 
-    private static List<Education> decodeEducations(String str) {
+    private List<Education> decodeEducations(String str) {
         List<Education> list = new ArrayList<>();
         for (String part : str.replace("\"", "").split(";")) {
             if (part.isBlank()) continue;
@@ -126,13 +243,12 @@ public class Database {
             }
             LocalDate start = (f.length > 3 && !f[3].isBlank()) ? LocalDate.parse(f[3]) : null;
             LocalDate end = (f.length > 4 && !f[4].isBlank()) ? LocalDate.parse(f[4]) : null;
-            // Education constructor: (LocalDate startDate, LocalDate endDate, ArrayList<String> achievements, String degree, String school)
             list.add(new Education(start, end, courses, degree, school));
         }
         return list;
     }
 
-    private static List<Experience> decodeExperiences(String str) {
+    private List<Experience> decodeExperiences(String str) {
         List<Experience> list = new ArrayList<>();
         for (String part : str.replace("\"", "").split(";")) {
             if (part.isBlank()) continue;
@@ -145,13 +261,12 @@ public class Database {
             }
             LocalDate start = (f.length > 3 && !f[3].isBlank()) ? LocalDate.parse(f[3]) : null;
             LocalDate end = (f.length > 4 && !f[4].isBlank()) ? LocalDate.parse(f[4]) : null;
-            // Experience constructor: (LocalDate startDate, LocalDate endDate, ArrayList<String> achievements, String role, String company)
             list.add(new Experience(start, end, achievements, role, company));
         }
         return list;
     }
 
-    private static List<Skill> decodeSkills(String str) {
+    private List<Skill> decodeSkills(String str) {
         List<Skill> list = new ArrayList<>();
         for (String part : str.replace("\"", "").split(";")) {
             if (part.isBlank()) continue;
@@ -164,14 +279,13 @@ public class Database {
             }
             LocalDate start = (f.length > 3 && !f[3].isBlank()) ? LocalDate.parse(f[3]) : null;
             LocalDate end = (f.length > 4 && !f[4].isBlank()) ? LocalDate.parse(f[4]) : null;
-            // Skill constructor: (LocalDate acquiredDate, ArrayList<String> achievements, String skill, String proficiency)
             list.add(new Skill(start, achievements, skill, proficiency));
         }
         return list;
     }
 
     // --- Utils ---
-    private static String[] splitCsvLine(String line) {
+    private String[] splitCsvLine(String line) {
         List<String> tokens = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
         boolean inQuotes = false;
@@ -188,4 +302,13 @@ public class Database {
         tokens.add(sb.toString());
         return tokens.toArray(new String[0]);
     }
+
+    // --- For Employers ---------------------------------------------------------------------------------------
+
+    public void saveEmployer(Employer employer) {
+
+
+
+    }
+
 }

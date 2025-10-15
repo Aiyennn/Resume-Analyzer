@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class AuthUI {
@@ -13,18 +14,24 @@ public class AuthUI {
     public User displayMenu() {
 
         while (true) {
-        System.out.println("1. Login");
-        System.out.println("2. Register");
-        System.out.println("3. Exit");
+        System.out.println("1. Job seeker Login");
+        System.out.println("2. Job seeker Register");
+        System.out.println("3. Employer Login");
+        System.out.println("4. Employer Register");
+        System.out.println("5. Exit");
         System.out.print("Choose an Option: ");
         String choice = scanner.nextLine();
 
         switch (choice) {
             case "1":
-                return loginInput();
+                return jobseekerLoginInput();
             case "2":
-                return registerInput();
+                return jobseekerRegisterInput();
             case "3":
+                return employerLoginInput();
+            case "4":
+                return employerRegisterInput();
+            case "5":
                 return null;
             default:
                 System.out.println("Invalid input try again");
@@ -34,51 +41,38 @@ public class AuthUI {
 
     }
 
+    public JobSeeker jobseekerLoginInput(){
 
-    public void displayLoginForm(){
+        System.out.print("Email: ");
+        String email = scanner.nextLine();
+        System.out.println("Password: ");
+        String password = scanner.nextLine();
 
-        // Display
+        JobSeeker user = authService.jobSeekerlogin(email, password);
 
+        return user;
     }
 
-    public void displayRegisterForm(){
+    public User jobseekerRegisterInput(){
 
-        // Display
+        System.out.print("Name: ");
+        String name = scanner.nextLine();
+        System.out.print("Password: ");
+        String password = scanner.nextLine();
+        System.out.print("Email: ");
+        String email = scanner.nextLine();
 
+        JobSeeker user = authService.jobSeekerRegister(name, email, password);
+
+        return user;
     }
 
-    public User loginInput(){
-
-        // Refer datatype on AuthService
-
-        // Prompt the user for username and password
-
-        // Call authService.login(username, password) => Return a user object
-
-        // return the user Object from authService
-
-        // if authService.login(username, password) returned null
-            // Print that the login credential is invalid
-            // Prompt the user if they want to register
-            // call registerInput()
-
-        // Delete ---------
-        return new User();
-        // Delete ---------
+    public Employer employerLoginInput() {
+        return new Employer();
     }
 
-    public User registerInput(){
-
-        // Refer datatype on AuthService
-
-        // Prompt for name, email, password, age,
-
-        // Call authService.register(name, email, password, age) => Return a user object
-
-        // return the user Object from authService
-
-        // Delete ---------
-        return new User();
-        // Delete ---------
+    public Employer employerRegisterInput() {
+        return new Employer();
     }
+
 }
