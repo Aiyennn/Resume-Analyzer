@@ -142,7 +142,7 @@ public class Database {
     }
 
 
-    // Swap the name into job seeeker
+    // Swap the name into job seeeker for clarity
     public boolean userExists(String email) throws IOException {
 
         try (BufferedReader reader = new BufferedReader(new FileReader(jobSeekerFile))) {
@@ -301,27 +301,9 @@ public class Database {
             ArrayList<JobDescription> jdList = employer.getJobDescriptions();
             List<String> flattenedJDs = new ArrayList<>();
 
-            if (jdList != null) {
-                for (JobDescription jd : jdList) {
-                    if (jd == null) continue;
-
-                    // Handle null collections
-                    String skills = jd.getSkillQualification() != null
-                            ? String.join(";", jd.getSkillQualification())
-                            : "";
-                    String education = jd.getEducationQualification() != null
-                            ? String.join(";", jd.getEducationQualification())
-                            : "";
-                    String experience = jd.getExperienceQualification() != null
-                            ? String.join(";", jd.getExperienceQualification())
-                            : "";
-
-                    String title = jd.getTitle() != null ? jd.getTitle() : "";
-                    String jdString = title + "|" + skills + "|" + education + "|" + experience;
-                    flattenedJDs.add(jdString);
-                }
-            }
-            String combinedJDs = String.join("#", flattenedJDs);
+            // Last commit refactored code
+            String combinedJDs = flattenJobDescription(employer.getJobDescriptions());
+            // Last commit refactored code
 
             // Flatten Employer with null checks
             String name = employer.getName() != null ? employer.getName() : "";
@@ -355,26 +337,9 @@ public class Database {
                     ArrayList<JobDescription> jdList = employer.getJobDescriptions();
                     List<String> flattenedJDs = new ArrayList<>();
 
-                    if (jdList != null) {
-                        for (JobDescription jd : jdList) {
-                            if (jd == null) continue;
-
-                            String skills = jd.getSkillQualification() != null
-                                    ? String.join(";", jd.getSkillQualification())
-                                    : "";
-                            String education = jd.getEducationQualification() != null
-                                    ? String.join(";", jd.getEducationQualification())
-                                    : "";
-                            String experience = jd.getExperienceQualification() != null
-                                    ? String.join(";", jd.getExperienceQualification())
-                                    : "";
-
-                            String title = jd.getTitle() != null ? jd.getTitle() : "";
-                            String jdString = title + "|" + skills + "|" + education + "|" + experience;
-                            flattenedJDs.add(jdString);
-                        }
-                    }
-                    String combinedJDs = String.join("#", flattenedJDs);
+                    // Last commit refactored code
+                    String combinedJDs = flattenJobDescription(employer.getJobDescriptions());
+                    // Las commit refactored code
 
                     String name = employer.getName() != null ? employer.getName() : "";
                     String password = employer.getPassword() != null ? employer.getPassword() : "";
@@ -514,6 +479,22 @@ public class Database {
         // For debuggin remove later
         System.out.println("Here's the joblists: " + jobList);
         return jobList;
+    }
+
+    private String flattenJobDescription(List<JobDescription> jdList) {
+
+        if (jdList == null) return "";
+        List<String> flattened = new ArrayList<>();
+
+        for (JobDescription jd : jdList) {
+            if (jd == null) continue;
+            String skills = jd.getSkillQualification() != null ? String.join(";", jd.getSkillQualification()) : "";
+            String education = jd.getEducationQualification() != null ? String.join(";", jd.getEducationQualification()) : "";
+            String experience = jd.getExperienceQualification() != null ? String.join(";", jd.getExperienceQualification()) : "";
+            String title = jd.getTitle() != null ? jd.getTitle() : "";
+            flattened.add(title + "|" + skills + "|" + education + "|" + experience);
+        }
+        return String.join("#", flattened);
     }
 
 }
