@@ -14,7 +14,7 @@ public class AuthUI {
     public User displayMenu() {
 
         while (true) {
-        System.out.println("---- Login ----");
+        Util.printBanner("Login");
         System.out.println("1. Job seeker Login");
         System.out.println("2. Job seeker Register");
         System.out.println("3. Employer Login");
@@ -44,7 +44,7 @@ public class AuthUI {
 
     // Fix later | Code duplication
     public JobSeeker jobseekerLoginInput(){
-
+        Util.printBanner("Logging in as Job seeker");
         System.out.print("Email: ");
         String email = scanner.nextLine();
         System.out.print("Password: ");
@@ -56,6 +56,7 @@ public class AuthUI {
 
     public JobSeeker jobseekerRegisterInput(){
 
+        Util.printBanner("Register");
         System.out.print("Name: ");
         String name = scanner.nextLine();
         System.out.print("Password: ");
@@ -68,6 +69,7 @@ public class AuthUI {
 
     public Employer employerLoginInput() {
 
+        Util.printBanner("Login as Employer");
         System.out.print("Email: ");
         String email = scanner.nextLine();
         System.out.println("Password: ");
@@ -79,6 +81,7 @@ public class AuthUI {
 
     public Employer employerRegisterInput() {
 
+        Util.printBanner("Register");
         System.out.println("Name: ");
         String name = scanner.nextLine();
         System.out.println("Password: ");

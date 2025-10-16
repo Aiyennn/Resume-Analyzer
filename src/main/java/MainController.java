@@ -20,8 +20,7 @@ public class MainController {
         User currentUser = authUI.displayMenu();
 
         if (currentUser == null) {
-            System.out.println("User not found");
-            return;
+            System.out.println("Please Login: ");
         }
 
         if (currentUser instanceof JobSeeker) {
@@ -38,11 +37,12 @@ public class MainController {
 
     }
 
+    // Job seeker menu || Rename
     public void mainMenu(User user) {
 
         while (true) {
 
-        System.out.println("Hi User");
+        Util.printBanner("[Job seeker]: " + user.getName());
         System.out.println("1. Build Resume");
         System.out.println("2. Match Jobs");
         System.out.println("3. Logout");
@@ -64,11 +64,12 @@ public class MainController {
     }
     }
 
+    // Employer menu
     public void employerMenu(User user) {
 
         while (true) {
 
-            System.out.println("Hi Employer");
+            Util.printBanner("[Employer]: " + user.getName());
             System.out.println("1. Post Job");
             System.out.println("2. View Posted Jobs");
             System.out.println("3. Logout");

@@ -12,75 +12,93 @@ public class EducationAnalyzer implements Analyzers {
     @Override
     public double dateRelevance(LocalDate startDate, LocalDate endDate) {
 
-        // Step 1: Receive input
-        // - startDate: when the program started
-        // - endDate: when the program ended
-        // - expectedDurationDays: how long the program is supposed to take
-
-        // Step 2: Handle ongoing programs
-        // If endDate is in the future, return 0 points (still studying)
+        // Still studying
+        if (endDate.isAfter(LocalDate.now())) {
+            return 0;
+        }
 
         // Step 3: Calculate actual duration
-        // actualDurationDays = days between startDate and endDate
+        long actualDurationDays = endDate.toEpochDay() - startDate.toEpochDay();
+
+        // Expected duration
+        long expectedDurationDays = 1460;
 
         // Step 4: Assign points based on timeliness
-        // - +10 if graduated earlier than expected
-        // - +0 points if finished exactly on time
-        // - -912,432,634 if finished late
-
-
-        // Step 6: Return the points
-
-        return 0;
+        if (actualDurationDays < expectedDurationDays) {
+            // Finished earlier than expected
+            return 10;
+        } else if (actualDurationDays == expectedDurationDays) {
+            // Finished exactly on time
+            return 0;
+        } else {
+            // Finished late
+            return -5;
+        }
 
     }
 
     @Override
     public double credentialRelevance(String credential1, String credential2) {
 
-        // Step 1: Receive input
-        // - credential1: type of degree (e.g., "PhD", "Master", "Bachelor")
-        // - credential2: school or institution name
+        double totalPoints = 0;
 
-        // Step 2: Use JobDescription class
-        // - Access predefined arrays such as educationCredentials, educationSchools, and educationAchievements
-        //   Example: job.educationCredentials, job.educationSchools, job.educationAchievements
+        for (int i = 0; i < job.educationCredentials.length; i++) {
+            if (credential1.equalsIgnoreCase(job.educationCredentials[i])) {
+                totalPoints += job.credentialPoints[i];
+                break;
+            }
+        }
 
-        // Step 3: Compare the received input with JobDescription arrays
-        // - If credential1 matches any element in job.educationCredentials, assign the corresponding value from job.credentialPoints
-        // - If credential2 matches any element in job.educationSchools, assign the corresponding value from job.schoolPoints
-        // - If credential3 matches any element in job.educationAchievements, assign the corresponding value from job.achievementPoints
+        for (int i = 0; i < job.educationSchools.length; i++) {
+            if (credential2.equalsIgnoreCase(job.educationSchools[i])) {
+                totalPoints += job.schoolPoints[i];
+                break;
+            }
+        }
 
-        // Return the accumulative points
 
-        return 0;
+        return totalPoints;
     }
 
     @Override
     public double achievementRelevance(ArrayList<String> achievements) {
 
-        // Step 1: Take ArrayList<String> of input achievements
-        // Step 2: Compare each entry with job.educationAchievements[]
-        // Step 3: For every match, add corresponding job.educationAchievementPoints[] value
-        // Step 4: Return the total points
+        double totalPoints = 0;
 
+        for (int i = 0; i < achievements.size(); i++) {
+            String inputAchievement = achievements.get(i);
 
-        // return points
-        return 0;
+            for (int j = 0; j < job.educationAchievements.length; j++) {
+                if (inputAchievement.equalsIgnoreCase(job.educationAchievements[j])) {
+                    totalPoints += job.achievementPoints[j];
+                    break;
+                }
+            }
+        }
+
+        return totalPoints;
     }
 
     @Override
     public double analyze(ResumeSection resumeSection) {
 
-//         Will receive an Education class
+        Education educationResume = (Education) resumeSection;
 
-//        double score = 0;
-//
-//        score += dateRelevance();
-//        score += credentialRelevance();
-//        score += achievementRelevance();
-//
-//        return score;
-        return 0;
+        LocalDate startDate = educationResume.getStartDate();
+        LocalDate endDate = educationResume.getEndDate();
+
+        String credential1 = educationResume.getDegree();
+        String credential2 = educationResume.getSchool();
+
+        ArrayList<String> achievements = educationResume.getAchievements();
+
+        double score = 0;
+
+        score += dateRelevance(startDate, endDate);
+        score += credentialRelevance(credential1, credential2);
+        score += achievementRelevance(achievements);
+
+        return score;
+
     }
 }

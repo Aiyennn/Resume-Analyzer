@@ -11,6 +11,9 @@ public class AuthService {
 
         try {
             JobSeeker user = database.getJobSeekerByEmail(email, password);
+            if (user == null) {
+                System.out.println("User Not Found");
+            }
             return user;
         } catch (Exception e) {
             e.printStackTrace();
@@ -27,7 +30,7 @@ public class AuthService {
         try {
 
             if (database.userExists(email)) {
-                System.out.println("User already exists please login");
+                System.out.println("⚠\uFE0F User already exists");
                 return null;
             }
 

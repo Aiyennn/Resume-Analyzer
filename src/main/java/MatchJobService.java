@@ -31,4 +31,13 @@ public class MatchJobService {
 
     }
 
+    public void analyzeResume() {
+
+        // Calculate points
+        // educationAnalyzer()
+
+        // Print 30 => Go back to school 50 => not bad
+
+    }
+
 }

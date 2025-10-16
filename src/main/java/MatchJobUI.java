@@ -24,6 +24,19 @@ public class MatchJobUI {
         // Print shit
     }
 
+    public void analyzeResume(JobSeeker user) {
+
+        // Resume resume = user.getResume()
+
+        // SKill skill = resume.getSkill() etc
+
+        matchJobService.analyzeResume();
+
+    }
+
+
+//    Employer Section ------------------------------------------------------------------------------
+
     public void inputPostJob(Employer user) {
 
 
@@ -70,5 +83,4 @@ public class MatchJobUI {
         }
 
     }
-
 }

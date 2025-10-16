@@ -45,7 +45,7 @@ public class ResumeUI {
 
     }
 
-    public void inputSkills(User user) {
+    public void inputSkills(JobSeeker user) {
 
 //         Prompt the user for:  /!\ Ensure that the input are correct and avoid crashing when unexpected input
 //         LocaleDate startDate
@@ -201,5 +201,6 @@ public class ResumeUI {
 
 
     }
+
 
 }
