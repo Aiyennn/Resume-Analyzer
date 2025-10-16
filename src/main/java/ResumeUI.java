@@ -55,6 +55,51 @@ public class ResumeUI {
 
 //        resumeService.addSkill(startDate, achievements, skill, proficiency, user);
 
+        LocalDate startDate;
+        try {
+            System.out.print("Enter start date (YYYY-MM-DD): ");
+            startDate = LocalDate.parse(scanner.nextLine().trim());
+        } catch (Exception e) {
+            System.out.println("⚠️ Invalid date. Defaulting to today's date.");
+            startDate = LocalDate.now();
+        }
+
+        ArrayList<String> achievements = new ArrayList<>();
+        System.out.println("Enter your achievements (type 'done' to finish):");
+        while (true) {
+            System.out.print("> ");
+            String achievement = scanner.nextLine().trim();
+            if (achievement.equalsIgnoreCase("done")) {
+                break;
+            } else if (!achievement.isEmpty()) {
+                achievements.add(achievement);
+            } else {
+                System.out.println("Please enter a valid text or 'done' to stop.");
+            }
+        }
+
+        String skill = "";
+        while (skill.isEmpty()) {
+            System.out.print("Enter your skill: ");
+            skill = scanner.nextLine().trim();
+            if (skill.isEmpty()) {
+                System.out.println("⚠️ Role cannot be empty.");
+            }
+        }
+
+        String proficiency = "";
+        while (proficiency.isEmpty()) {
+            System.out.print("Enter proficiency: ");
+            proficiency = scanner.nextLine().trim();
+            if (proficiency.isEmpty()) {
+                System.out.println("⚠️ Company name cannot be empty.");
+            }
+        }
+
+        resumeService.addSkill(startDate, achievements, skill, proficiency, user);
+
+
+
     }
 
     public void inputExperience(JobSeeker user) {
