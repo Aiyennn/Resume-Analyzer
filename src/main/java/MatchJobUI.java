@@ -1,5 +1,6 @@
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class MatchJobUI {
@@ -12,7 +13,27 @@ public class MatchJobUI {
         this.scanner = scanner;
     }
 
-    public void displayMenu(User user) {
+    public void displayMenu(JobSeeker user) {
+
+        Util.printBanner("Matchjob");
+        System.out.println("[1] Display All Jobs");
+        System.out.println("[2] Display Match Jobs");
+        System.out.println("[3] Analyze My Resume");
+
+        System.out.print("Select choice");
+        String choice = scanner.nextLine();
+
+        switch (choice) {
+            case "1":
+                displayAllJobs();
+                break;
+            case "2":
+                displayMatchJobs();
+                break;
+            case "3":
+                analyzeResume(user);
+                break;
+        }
 
     }
 
@@ -21,16 +42,26 @@ public class MatchJobUI {
     }
 
     public void displayAllJobs(){
-        // Print shit
+
+        System.out.println("Im here");
+        List<JobDescription> allJobs = matchJobService.getJobListing();
+
+        for (JobDescription job: allJobs) {
+            Util.printBanner(job.getTitle());
+            System.out.println("Skill: " + job.getSkillQualification());
+            System.out.println("Experience: " + job.getExperienceQualification());
+            System.out.println("Education: " + job.getEducationQualification());
+        }
     }
 
     public void analyzeResume(JobSeeker user) {
 
-        // Resume resume = user.getResume()
+        Resume resume = user.getResume();
+        List<Double> scores = matchJobService.analyzeResume(resume);
 
-        // SKill skill = resume.getSkill() etc
-
-        matchJobService.analyzeResume();
+        for (Double score : scores) {
+            System.out.println(score);
+        }
 
     }
 
@@ -53,7 +84,7 @@ public class MatchJobUI {
     public ArrayList<String> inputQualifications(String type) {
 
         ArrayList<String> qualifications = new ArrayList<>();
-        System.out.println("Enter " + qualifications + " requirements (type 'done' to finish):");
+        System.out.println("Enter " + type + " requirements (type 'done' to finish):");
         while (true) {
             System.out.print("> ");
             String achievement = scanner.nextLine().trim();
@@ -72,7 +103,7 @@ public class MatchJobUI {
 
     public void displayPostedJobs(Employer employer) {
 
-        System.out.println("I'm here");
+        Util.printBanner("Posted Jobs");
         ArrayList<JobDescription> postedJobs = employer.getJobDescriptions();
 
         for (JobDescription jobDescription : postedJobs) {

@@ -63,6 +63,8 @@ public class ExperienceAnalyzer implements Analyzers{
 
     @Override
     public double analyze(ResumeSection resumeSection) {
+
+        Util.printBanner("Experience: " + 0);
         return 0;
     }
 }

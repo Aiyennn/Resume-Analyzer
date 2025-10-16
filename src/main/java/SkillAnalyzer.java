@@ -57,6 +57,8 @@ public class SkillAnalyzer implements Analyzers{
 
     @Override
     public double analyze(ResumeSection resumeSection) {
+
+        Util.printBanner("Skill: " + 0);
         return 0;
     }
     // Analyze the entire resume give a score and grade it Needs improvement, Average, Strong, Excellent

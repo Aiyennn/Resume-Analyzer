@@ -48,24 +48,11 @@ public class Database {
 
         try (PrintWriter writer = new PrintWriter(new FileWriter(jobSeekerFile, true))) {
 
-            String educations = "None";
-            String experiences = "None";
-            String skills = "None";
-
-            if (user.getResume() != null) {
-                if (user.getResume().getEducations() != null)
-                    educations = encodeEducations(user.getResume().getEducations());
-
-                if (user.getResume().getExperiences() != null)
-                    experiences = encodeExperiences(user.getResume().getExperiences());
-
-                if (user.getResume().getSkills() != null)
-                    skills = encodeSkills(user.getResume().getSkills());
-            }
-
+            String[] encoded = encodeResumeData(user);
             writer.printf("\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"%n",
                     user.getName(), user.getPassword(), user.getEmail(),
-                    educations, experiences, skills);
+                    encoded[0], encoded[1], encoded[2]);
+
         }
     }
 
@@ -93,25 +80,13 @@ public class Database {
                     String currentEmail = parts[2].replace("\"", "");
 
                     if (currentEmail.equalsIgnoreCase(user.getEmail())) {
-                        String educations = "None";
-                        String experiences = "None";
-                        String skills = "None";
 
-                        if (user.getResume() != null) {
-                            if (user.getResume().getEducations() != null)
-                                educations = encodeEducations(user.getResume().getEducations());
-
-                            if (user.getResume().getExperiences() != null)
-                                experiences = encodeExperiences(user.getResume().getExperiences());
-
-                            if (user.getResume().getSkills() != null)
-                                skills = encodeSkills(user.getResume().getSkills());
-                        }
-
+                        String[] encoded = encodeResumeData(user);
                         writer.printf("\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"%n",
                                 user.getName(), user.getPassword(), user.getEmail(),
-                                educations, experiences, skills);
+                                encoded[0], encoded[1], encoded[2]);
                         found = true;
+
                     } else {
                         writer.println(line);
                     }
@@ -188,6 +163,23 @@ public class Database {
     }
 
     // --- Encoding/Decoding Helpers ---
+
+    private String[] encodeResumeData(JobSeeker user) {
+
+        String educations = "None";
+        String experiences = "None";
+        String skills = "None";
+
+        if (user.getResume() != null) {
+            if (user.getResume().getEducations() != null)
+                educations = encodeEducations(user.getResume().getEducations());
+            if (user.getResume().getExperiences() != null)
+                experiences = encodeExperiences(user.getResume().getExperiences());
+            if (user.getResume().getSkills() != null)
+                skills = encodeSkills(user.getResume().getSkills());
+        }
+        return new String[]{educations, experiences, skills};
+    }
 
     private String encodeEducations(List<Education> list) {
         if (list == null) return "";
@@ -346,7 +338,7 @@ public class Database {
         }
     }
 
-    // Ad hoc solution fix later
+    // Ad hoc solution fix later => Nanuyni
     public void updateEmployer(Employer employer) {
 
         File tempFile = new File("temp_employer_file.txt");
@@ -479,4 +471,49 @@ public class Database {
         }
         return false;
     }
+
+    public List<JobDescription> parseJobDescriptions() {
+        List<JobDescription> jobList = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(employerFile))) {
+            String line;
+            boolean isFirstLine = true;
+
+            while ((line = reader.readLine()) != null) {
+                if (isFirstLine) {
+                    isFirstLine = false;
+                    continue;
+                }
+
+                line = line.trim();
+                if (line.isEmpty()) continue;
+
+                String[] parts = line.split(",", 4);
+                if (parts.length < 4) continue;
+
+                String jobData = parts[3];
+                String[] jobEntries = jobData.split("#");
+
+                for (String entry : jobEntries) {
+                    String[] jobParts = entry.split("\\|");
+
+                    if (jobParts.length >= 4) {
+                        String title = jobParts[0];
+                        ArrayList<String> skillQ = new ArrayList<>(List.of(jobParts[1].split(";")));
+                        ArrayList<String> educationQ = new ArrayList<>(List.of(jobParts[2].split(";")));
+                        ArrayList<String> experienceQ = new ArrayList<>(List.of(jobParts[3].split(";")));
+
+                        jobList.add(new JobDescription(title, skillQ, educationQ, experienceQ));
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // For debuggin remove later
+        System.out.println("Here's the joblists: " + jobList);
+        return jobList;
+    }
+
 }

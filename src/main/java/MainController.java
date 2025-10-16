@@ -37,9 +37,10 @@ public class MainController {
 
     }
 
-    // Job seeker menu || Rename
+    // JOB SEEKER---------------------------------------------------------------------------
     public void mainMenu(User user) {
 
+        JobSeeker jobSeeker = (JobSeeker) user;
         while (true) {
 
         Util.printBanner("[Job seeker]: " + user.getName());
@@ -52,10 +53,10 @@ public class MainController {
 
         switch (choice) {
             case "1":
-                resumeUI.displayMenu((JobSeeker) user);
+                resumeUI.displayMenu(jobSeeker);
                 break;
             case "2":
-                matchJobUI.displayMenu((JobSeeker) user);
+                matchJobUI.displayMenu(jobSeeker);
                 break;
             case "3":
                 return;
@@ -64,7 +65,9 @@ public class MainController {
     }
     }
 
-    // Employer menu
+    // End of Job Seeker ------------------------------------------------------------------
+
+    // Employer ---------------------------------------------------------------------------
     public void employerMenu(User user) {
 
         while (true) {
