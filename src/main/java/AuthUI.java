@@ -44,7 +44,9 @@ public class AuthUI {
 
     // Fix later | Code duplication
     public JobSeeker jobseekerLoginInput(){
+
         Util.printBanner("Logging in as Job seeker");
+        System.out.println("Enter random credentials to go back");
         System.out.print("Email: ");
         String email = scanner.nextLine();
         System.out.print("Password: ");
@@ -59,10 +61,10 @@ public class AuthUI {
         Util.printBanner("Register");
         System.out.print("Name: ");
         String name = scanner.nextLine();
-        System.out.print("Password: ");
-        String password = scanner.nextLine();
         System.out.print("Email: ");
         String email = scanner.nextLine();
+        System.out.print("Password: ");
+        String password = scanner.nextLine();
 
         return authService.jobSeekerRegister(name, email, password);
     }
@@ -70,6 +72,7 @@ public class AuthUI {
     public Employer employerLoginInput() {
 
         Util.printBanner("Login as Employer");
+        System.out.println("Enter random credentials to go back");
         System.out.print("Email: ");
         String email = scanner.nextLine();
         System.out.println("Password: ");
