@@ -111,7 +111,6 @@ public class SkillAnalyzer implements Analyzers{
         score += credentialRelevance(credential1, credential2);
         score += achievementRelevance(achievements);
 
-        Util.printBanner("Skill: " + score);
         return score;
     }
     // Analyze the entire resume give a score and grade it Needs improvement, Average, Strong, Excellent
