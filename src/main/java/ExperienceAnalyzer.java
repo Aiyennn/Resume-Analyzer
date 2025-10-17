@@ -112,8 +112,6 @@ public class ExperienceAnalyzer implements Analyzers{
         score += dateRelevance(startDate, endDate);
         score += credentialRelevance(credential1, credential2);
         score += achievementRelevance(achievements);
-
-        Util.printBanner("Experience: " + score);
         return score;
     }
 }

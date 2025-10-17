@@ -98,8 +98,6 @@ public class EducationAnalyzer implements Analyzers {
         score += credentialRelevance(credential1, credential2);
         score += achievementRelevance(achievements);
 
-        Util.printBanner("Education " + score);
-
         return score;
 
     }
