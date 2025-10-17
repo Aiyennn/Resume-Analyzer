@@ -20,7 +20,7 @@ public class Database {
 
             if (!employerCSV.exists()) {
                 try (FileWriter writer = new FileWriter(employerCSV)) {
-                    writer.write("Name,Password,Email,Job Title,Skill Qualification,Education Qualification,Experience Qualification\n");
+                    writer.write("Name,Email,Password,Job Title,Skill Qualification,Education Qualification,Experience Qualification\n");
                 }
                 System.out.println("📁 Created file: " + employerFile);
             } else {
@@ -29,7 +29,7 @@ public class Database {
 
             if (!jobSeekerCSV.exists()) {
                 try (FileWriter writer = new FileWriter(jobSeekerCSV)) {
-                    writer.write("Name,Password,Email,Skills,Education,Experience\n");
+                    writer.write("Name,Email,Password,Skills,Education,Experience\n");
                 }
                 System.out.println("📁 Created file: " + jobSeekerFile);
             } else {
@@ -123,11 +123,11 @@ public class Database {
                 String[] parts = splitCsvLine(line);
                 if (parts.length < 6) continue;
 
-                String currentEmail = parts[2].replace("\"", "");
+                String currentEmail = parts[1].replace("\"", "");
                 if (currentEmail.equalsIgnoreCase(email)) {
 
                     String name = parts[0].replace("\"", "");
-                    String password = parts[1].replace("\"", "");
+                    String password = parts[2].replace("\"", "");
 
                     List<Education> educations = decodeEducations(parts[3]);
                     List<Experience> experiences = decodeExperiences(parts[4]);
@@ -376,8 +376,8 @@ public class Database {
                 if (parts.length < 3) continue; // At minimum need name, password, email
 
                 String name = parts[0];
-                String pwd = parts[1];
-                String mail = parts[2];
+                String pwd = parts[2];
+                String mail = parts[1];
                 String jdString = parts.length >= 4 ? parts[3] : ""; // Handle missing job descriptions
 
                 if (mail.equals(email) && pwd.equals(password)) {
@@ -437,6 +437,7 @@ public class Database {
         return false;
     }
 
+    // [Fragile] please handle with care band-aid solution
     public List<JobDescription> parseJobDescriptions() {
         List<JobDescription> jobList = new ArrayList<>();
 
@@ -456,30 +457,54 @@ public class Database {
                 String[] parts = line.split(",", 4);
                 if (parts.length < 4) continue;
 
-                String jobData = parts[3];
-                String[] jobEntries = jobData.split("#");
+                String jobData = parts[3].replace("\"", "");
 
-                for (String entry : jobEntries) {
-                    String[] jobParts = entry.split("\\|");
+                String[] jobEntries = jobData.split("\\|\\|");
 
-                    if (jobParts.length >= 4) {
-                        String title = jobParts[0];
-                        ArrayList<String> skillQ = new ArrayList<>(List.of(jobParts[1].split(";")));
-                        ArrayList<String> educationQ = new ArrayList<>(List.of(jobParts[2].split(";")));
-                        ArrayList<String> experienceQ = new ArrayList<>(List.of(jobParts[3].split(";")));
+                for (String jobEntry : jobEntries) {
+                    jobEntry = jobEntry.trim();
+                    if (jobEntry.isEmpty()) continue;
 
-                        jobList.add(new JobDescription(title, skillQ, educationQ, experienceQ));
+                    if (jobEntry.startsWith("#")) {
+                        jobEntry = jobEntry.substring(1);
                     }
+
+                    String[] jobParts = jobEntry.split("\\|");
+                    if (jobParts.length < 2) continue;
+
+                    String title = jobParts[0].trim();
+
+                    ArrayList<String> skills = new ArrayList<>();
+                    ArrayList<String> experience = new ArrayList<>();
+                    ArrayList<String> education = new ArrayList<>();
+
+                    for (String s : jobParts[1].split(";")) {
+                        if (!s.trim().isEmpty()) skills.add(s.trim());
+                    }
+
+                    if (jobParts.length > 2 && !jobParts[2].trim().isEmpty()) {
+                        for (String e : jobParts[2].split(";")) {
+                            if (!e.trim().isEmpty()) experience.add(e.trim());
+                        }
+                    }
+
+                    if (jobParts.length > 3 && !jobParts[3].trim().isEmpty()) {
+                        for (String ed : jobParts[3].split(";")) {
+                            if (!ed.trim().isEmpty()) education.add(ed.trim());
+                        }
+                    }
+
+                    jobList.add(new JobDescription(title, skills, experience, education));
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        // For debuggin remove later
-        System.out.println("Here's the joblists: " + jobList);
+        System.out.println("Here's the job list: " + jobList);
         return jobList;
     }
+
 
     private String flattenJobDescription(List<JobDescription> jdList) {
 

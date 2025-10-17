@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MatchJobService {
     private Database database;
@@ -16,6 +18,11 @@ public class MatchJobService {
         this.skillAnalyzer = skillAnalyzer;
 
         jobListing = database.parseJobDescriptions();
+        System.out.println("Job listing have been parse with: " + jobListing.size());
+
+        for (JobDescription jobDescription : jobListing) {
+            System.out.println(jobDescription.getTitle());
+        }
 
     }
 
@@ -67,6 +74,57 @@ public class MatchJobService {
         scores.add(experienceScore);
 
         return scores;
+
+    }
+
+    public Map<JobDescription, Integer> getMatchJobs(Resume resume) {
+
+        // Match keywords from SKill, Education, and Experience from resume to each of Job Description
+        // Keywords from SKill => skill | Education => Degree | Company => Role
+
+        System.out.println("Im here");
+        Map<JobDescription, Integer> matchJobs = new HashMap<>();
+        List<Skill> skills = resume.getSkills();
+        List<Experience> experiences = resume.getExperiences();
+
+        System.out.println(jobListing.size());
+        for (JobDescription job : jobListing) {
+
+            System.out.println("Checking: " + job.getTitle());
+            int points = 0;
+
+            // Check skills
+            for (String skillQualification : job.getSkillQualification()) {
+
+                for (Skill skill : skills) {
+                    if (skill.getSkill().equalsIgnoreCase(skillQualification)) {
+                        points++;
+                    }
+
+                    System.out.println(skill.getSkill() + " " + skillQualification);
+                }
+
+            }
+
+            // Check experience
+            for (String experienceQualification : job.getExperienceQualification()) {
+
+                for (Experience experience : experiences) {
+                    if (experience.getRole().equalsIgnoreCase(experienceQualification)) {
+                        points++;
+                    }
+
+                    System.out.println(experience.getRole() + " " + experienceQualification);
+                }
+
+            }
+
+            matchJobs.put(job, points);
+
+        }
+
+        return matchJobs;
+
 
     }
 

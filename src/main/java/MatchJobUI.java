@@ -1,7 +1,5 @@
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class MatchJobUI {
 
@@ -28,7 +26,7 @@ public class MatchJobUI {
                 displayAllJobs();
                 break;
             case "2":
-                displayMatchJobs();
+                displayMatchJobs(user);
                 break;
             case "3":
                 analyzeResume(user);
@@ -37,8 +35,26 @@ public class MatchJobUI {
 
     }
 
-    public void displayMatchJobs(){
-        // Match by keyword
+    public void displayMatchJobs(JobSeeker user){
+
+        Resume resume = user.getResume();
+
+        Map<JobDescription, Integer> getMatchJobs = matchJobService.getMatchJobs(resume);
+
+        System.out.println("Matched jobs count: " + getMatchJobs.size());
+
+// Sort jobs by points (value) descending
+        List<Map.Entry<JobDescription, Integer>> sortedJobs = getMatchJobs.entrySet()
+                .stream()
+                .sorted(Map.Entry.<JobDescription, Integer>comparingByValue(Comparator.reverseOrder()))
+                .toList();
+
+// Print results
+        for (Map.Entry<JobDescription, Integer> entry : sortedJobs) {
+            Util.printBanner(entry.getValue() + " → " + entry.getKey().getTitle());
+        }
+
+
     }
 
     public void displayAllJobs(){
