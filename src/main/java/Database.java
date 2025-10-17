@@ -18,9 +18,11 @@ public class Database {
             File employerCSV = new File(employerFile);
             File jobSeekerCSV = new File(jobSeekerFile);
 
+            System.out.println("------------------------------------------------------");
+
             if (!employerCSV.exists()) {
                 try (FileWriter writer = new FileWriter(employerCSV)) {
-                    writer.write("Name,Email,Password,Job Title,Skill Qualification,Education Qualification,Experience Qualification\n");
+                    writer.write("Name,Email,Password,JobDescription\n");
                 }
                 System.out.println("📁 Created file: " + employerFile);
             } else {
@@ -36,7 +38,7 @@ public class Database {
                 System.out.println("✔ Found existing file: " + jobSeekerFile);
             }
 
-            System.out.println("\n\n");
+            System.out.println("------------------------------------------------------");
 
         } catch (IOException e) {
             System.err.println("Error checking or creating CSV files: " + e.getMessage());
@@ -51,7 +53,7 @@ public class Database {
             String[] encoded = encodeResumeData(user);
             writer.printf("\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"%n",
                     user.getName(), user.getPassword(), user.getEmail(),
-                    encoded[0], encoded[1], encoded[2]);
+                    encoded[2], encoded[0], encoded[1]);
 
         }
     }
@@ -77,7 +79,7 @@ public class Database {
 
                 String[] parts = splitCsvLine(line);
                 if (parts.length >= 3) {
-                    String currentEmail = parts[2].replace("\"", "");
+                    String currentEmail = parts[1].replace("\"", "");
 
                     if (currentEmail.equalsIgnoreCase(user.getEmail())) {
 
@@ -296,6 +298,8 @@ public class Database {
 
     // Fix => Combine save and update if possible
     public void saveEmployer(Employer employer) {
+
+        System.out.println("Save employer called");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(employerFile, true))) {
             // Flatten JobDescription list with null checks
             ArrayList<JobDescription> jdList = employer.getJobDescriptions();
@@ -307,10 +311,10 @@ public class Database {
 
             // Flatten Employer with null checks
             String name = employer.getName() != null ? employer.getName() : "";
-            String password = employer.getPassword() != null ? employer.getPassword() : "";
             String email = employer.getEmail() != null ? employer.getEmail() : "";
+            String password = employer.getPassword() != null ? employer.getPassword() : "";
 
-            String line = name + "," + password + "," + email + "," + combinedJDs;
+            String line = name + "," + email + "," + password + "," + combinedJDs;
 
             writer.write(line);
             writer.newLine();
@@ -323,6 +327,8 @@ public class Database {
     // Ad hoc solution fix later => Nanuyni
     public void updateEmployer(Employer employer) {
 
+        System.out.println("Employer Updated: ");
+        System.out.println(employer.name);
         File tempFile = new File("temp_employer_file.txt");
         File inputFile = new File(employerFile);
 
@@ -332,7 +338,7 @@ public class Database {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",", 4); // split into 4 parts max
-                if (parts.length >= 3 && parts[2].equals(employer.getEmail())) {
+                if (parts.length >= 3 && parts[1].equals(employer.getEmail())) {
                     // This is the employer to update, flatten it like saveEmployer
                     ArrayList<JobDescription> jdList = employer.getJobDescriptions();
                     List<String> flattenedJDs = new ArrayList<>();
@@ -342,10 +348,10 @@ public class Database {
                     // Las commit refactored code
 
                     String name = employer.getName() != null ? employer.getName() : "";
-                    String password = employer.getPassword() != null ? employer.getPassword() : "";
                     String email = employer.getEmail() != null ? employer.getEmail() : "";
+                    String password = employer.getPassword() != null ? employer.getPassword() : "";
 
-                    line = name + "," + password + "," + email + "," + combinedJDs;
+                    line = name + "," + email + "," + password + "," + combinedJDs;
                 }
 
                 writer.write(line);
@@ -366,6 +372,7 @@ public class Database {
         }
 
     }
+
     public Employer getEmployerByEmail(String email, String password) {
         try (BufferedReader reader = new BufferedReader(new FileReader(employerFile))) {
             String line;
@@ -376,8 +383,9 @@ public class Database {
                 if (parts.length < 3) continue; // At minimum need name, password, email
 
                 String name = parts[0];
-                String pwd = parts[2];
                 String mail = parts[1];
+                String pwd = parts[2];
+
                 String jdString = parts.length >= 4 ? parts[3] : ""; // Handle missing job descriptions
 
                 if (mail.equals(email) && pwd.equals(password)) {
@@ -438,7 +446,9 @@ public class Database {
     }
 
     // [Fragile] please handle with care band-aid solution
+    // Fix when there's time left
     public List<JobDescription> parseJobDescriptions() {
+
         List<JobDescription> jobList = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(employerFile))) {
@@ -454,10 +464,13 @@ public class Database {
                 line = line.trim();
                 if (line.isEmpty()) continue;
 
-                String[] parts = line.split(",", 4);
-                if (parts.length < 4) continue;
+                String[] parts = line.split(",", 4); // Back to 4
+                if (parts.length < 4) continue; // Need at least 4 parts
 
-                String jobData = parts[3].replace("\"", "");
+                String jobData = parts[3].replace("\"", ""); // parts[3] is correct
+
+                // If jobData is empty, skip this line
+                if (jobData.trim().isEmpty()) continue;
 
                 String[] jobEntries = jobData.split("\\|\\|");
 
@@ -465,12 +478,14 @@ public class Database {
                     jobEntry = jobEntry.trim();
                     if (jobEntry.isEmpty()) continue;
 
-                    if (jobEntry.startsWith("#")) {
-                        jobEntry = jobEntry.substring(1);
-                    }
+                    // Remove stray leading or internal pipes
+                    jobEntry = jobEntry.replaceAll("^\\|+", "").trim();
+
+                    // Remove # anywhere at start of a title segment
+                    jobEntry = jobEntry.replaceAll("#+", "").trim();
 
                     String[] jobParts = jobEntry.split("\\|");
-                    if (jobParts.length < 2) continue;
+                    if (jobParts.length == 0 || jobParts[0].trim().isEmpty()) continue;
 
                     String title = jobParts[0].trim();
 
@@ -478,8 +493,10 @@ public class Database {
                     ArrayList<String> experience = new ArrayList<>();
                     ArrayList<String> education = new ArrayList<>();
 
-                    for (String s : jobParts[1].split(";")) {
-                        if (!s.trim().isEmpty()) skills.add(s.trim());
+                    if (jobParts.length > 1 && !jobParts[1].trim().isEmpty()) {
+                        for (String s : jobParts[1].split(";")) {
+                            if (!s.trim().isEmpty()) skills.add(s.trim());
+                        }
                     }
 
                     if (jobParts.length > 2 && !jobParts[2].trim().isEmpty()) {
@@ -494,8 +511,11 @@ public class Database {
                         }
                     }
 
+                    System.out.println("Parsed job: " + title + " | skills=" + skills);
+
                     jobList.add(new JobDescription(title, skills, experience, education));
                 }
+
             }
         } catch (IOException e) {
             e.printStackTrace();

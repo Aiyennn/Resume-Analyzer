@@ -43,15 +43,14 @@ public class MatchJobUI {
 
         System.out.println("Matched jobs count: " + getMatchJobs.size());
 
-// Sort jobs by points (value) descending
         List<Map.Entry<JobDescription, Integer>> sortedJobs = getMatchJobs.entrySet()
                 .stream()
                 .sorted(Map.Entry.<JobDescription, Integer>comparingByValue(Comparator.reverseOrder()))
                 .toList();
 
-// Print results
+        int num = 1;
         for (Map.Entry<JobDescription, Integer> entry : sortedJobs) {
-            Util.printBanner(entry.getValue() + " → " + entry.getKey().getTitle());
+            Util.printBanner("[" + num + "]: " + entry.getValue() + "Points " + entry.getKey().getTitle());
         }
 
 

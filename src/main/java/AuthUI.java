@@ -82,12 +82,12 @@ public class AuthUI {
     public Employer employerRegisterInput() {
 
         Util.printBanner("Register");
-        System.out.println("Name: ");
+        System.out.print("Name: ");
         String name = scanner.nextLine();
-        System.out.println("Password: ");
-        String password = scanner.nextLine();
-        System.out.println("Email: ");
+        System.out.print("Email: ");
         String email = scanner.nextLine();
+        System.out.print("Password: ");
+        String password = scanner.nextLine();
 
         return authService.employerRegister(name, email, password);
 

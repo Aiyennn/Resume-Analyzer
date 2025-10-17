@@ -59,6 +59,9 @@ public class MainController {
                 matchJobUI.displayMenu(jobSeeker);
                 break;
             case "3":
+                System.out.println("\uD83D\uDD34Shutting down to avoid corrupt data");
+                System.out.println("\uD83D\uDFE2Please run again to log in");
+                System.exit(0);
                 return;
         }
 
@@ -88,6 +91,9 @@ public class MainController {
                     matchJobUI.displayPostedJobs((Employer) user);
                     break;
                 case "3":
+                    System.out.println("\uD83D\uDD34Shutting down to avoid corrupt data");
+                    System.out.println("\uD83D\uDFE2Please run again to log in");
+                    System.exit(0);
                     return;
             }
 

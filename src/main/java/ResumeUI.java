@@ -80,7 +80,7 @@ public class ResumeUI {
 
         String skill = "";
         while (skill.isEmpty()) {
-            System.out.print("Enter your skill: ");
+            System.out.print("Enter your skill (e.g python, javascript, c++): ");
             skill = scanner.nextLine().trim();
             if (skill.isEmpty()) {
                 System.out.println("⚠️ Role cannot be empty.");
@@ -89,7 +89,7 @@ public class ResumeUI {
 
         String proficiency = "";
         while (proficiency.isEmpty()) {
-            System.out.print("Enter proficiency: ");
+            System.out.print("Enter proficiency (eg. beginner, intermediate, expert): ");
             proficiency = scanner.nextLine().trim();
             if (proficiency.isEmpty()) {
                 System.out.println("⚠️ Company name cannot be empty.");
@@ -148,7 +148,7 @@ public class ResumeUI {
 
         String role = "";
         while (role.isEmpty()) {
-            System.out.print("Enter your role: ");
+            System.out.print("Enter your role (e.g software engineer, data analyst): ");
             role = scanner.nextLine().trim();
             if (role.isEmpty()) {
                 System.out.println("⚠️ Role cannot be empty.");
@@ -157,7 +157,7 @@ public class ResumeUI {
 
         String company = "";
         while (company.isEmpty()) {
-            System.out.print("Enter company name: ");
+            System.out.print("Enter company name (e.g google, meta, etc): ");
             company = scanner.nextLine().trim();
             if (company.isEmpty()) {
                 System.out.println("⚠️ Company name cannot be empty.");
@@ -213,7 +213,7 @@ public class ResumeUI {
 
         String degree = "";
         while (degree.isEmpty()) {
-            System.out.print("Enter your degree (e.g., BS Computer Science): ");
+            System.out.print("Enter your degree (e.g., bachelor's degree, master's degree): ");
             degree = scanner.nextLine().trim();
             if (degree.isEmpty()) {
                 System.out.println("⚠️ Degree cannot be empty.");
@@ -222,7 +222,7 @@ public class ResumeUI {
 
         String school = "";
         while (school.isEmpty()) {
-            System.out.print("Enter your school name: ");
+            System.out.print("Enter your school name: (e.g holy angel university, mit, harvard)");
             school = scanner.nextLine().trim();
             if (school.isEmpty()) {
                 System.out.println("⚠️ School name cannot be empty.");
