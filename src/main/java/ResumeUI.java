@@ -1,6 +1,3 @@
-import com.sun.security.jgss.GSSUtil;
-
-import javax.swing.text.html.HTMLDocument;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +14,9 @@ public class ResumeUI {
 
     public void displayMenu(JobSeeker user) {
 
+        while (true) {
+
+        Util.printBanner("Resume");
         System.out.println("1. Input Skills");
         System.out.println("2. Input Experience");
         System.out.println("3. Input Education");
@@ -39,8 +39,11 @@ public class ResumeUI {
             case "4":
                 displayResume(user);
                 break;
+            case "5":
+                return;
             default:
-                System.out.println("Wrong input");
+                System.out.println("--Input Error Try Again--");
+        }
         }
 
     }
@@ -83,7 +86,7 @@ public class ResumeUI {
             System.out.print("Enter your skill (e.g python, javascript, c++): ");
             skill = scanner.nextLine().trim();
             if (skill.isEmpty()) {
-                System.out.println("⚠️ Role cannot be empty.");
+                System.out.println("⚠️ skill cannot be empty.");
             }
         }
 
@@ -92,7 +95,7 @@ public class ResumeUI {
             System.out.print("Enter proficiency (eg. beginner, intermediate, expert): ");
             proficiency = scanner.nextLine().trim();
             if (proficiency.isEmpty()) {
-                System.out.println("⚠️ Company name cannot be empty.");
+                System.out.println("⚠️ proficiency cannot be empty.");
             }
         }
 

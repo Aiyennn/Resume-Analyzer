@@ -18,11 +18,13 @@ public class MatchJobService {
         this.skillAnalyzer = skillAnalyzer;
 
         jobListing = database.parseJobDescriptions();
-        System.out.println("Job listing have been parse with: " + jobListing.size());
 
-        for (JobDescription jobDescription : jobListing) {
-            System.out.println(jobDescription.getTitle());
-        }
+//        /!\ For debugging
+//        System.out.println("Job listing have been parse with: " + jobListing.size());
+//
+//        for (JobDescription jobDescription : jobListing) {
+//            System.out.println(jobDescription.getTitle());
+//        }
 
     }
 
@@ -82,7 +84,9 @@ public class MatchJobService {
         // Match keywords from SKill, Education, and Experience from resume to each of Job Description
         // Keywords from SKill => skill | Education => Degree | Company => Role
 
-        System.out.println("Im here");
+
+        // System.out.println("MatchJobService.getMatchJobs() called"); | For debugging
+
         Map<JobDescription, Integer> matchJobs = new HashMap<>();
         List<Skill> skills = resume.getSkills();
         List<Experience> experiences = resume.getExperiences();

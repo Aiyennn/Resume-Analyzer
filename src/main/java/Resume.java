@@ -28,8 +28,6 @@ public class Resume {
         return skills;
     }
 
-
-    // Switch arrow case not supported
     public void addSection (ResumeSection section) {
         if (section instanceof Education education) {
             educations.add(education);

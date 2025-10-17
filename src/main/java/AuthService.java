@@ -29,7 +29,7 @@ public class AuthService {
 
         try {
 
-            if (database.userExists(email)) {
+            if (database.jobSeekerExists(email)) {
                 System.out.println("⚠\uFE0F User already exists");
                 return null;
             }

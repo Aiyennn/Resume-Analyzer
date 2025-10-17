@@ -1,4 +1,6 @@
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -48,6 +50,7 @@ public class Database {
     // Fix combine save and update if possible
     public void saveJobSeeker(JobSeeker user) throws IOException {
 
+//        System.out.println("User: " + user.getName() + " Has been saved"); | For debugging
         try (PrintWriter writer = new PrintWriter(new FileWriter(jobSeekerFile, true))) {
 
             String[] encoded = encodeResumeData(user);
@@ -58,8 +61,9 @@ public class Database {
         }
     }
 
-    // Ad hoc solution dana fix it later
+    // /!\ Ad Hoc Solution fix when have time
     public void updateJobSeeker(JobSeeker user) throws IOException {
+
         File inputFile = new File(jobSeekerFile);
         File tempFile = new File(jobSeekerFile + ".tmp");
 
@@ -102,13 +106,8 @@ public class Database {
             }
         }
 
-        // Replace original file with updated file
-        if (!inputFile.delete()) {
-            throw new IOException("Could not delete original file");
-        }
-        if (!tempFile.renameTo(inputFile)) {
-            throw new IOException("Could not rename temp file");
-        }
+        // Replace original file with temp file safely
+        Files.move(tempFile.toPath(), inputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
     }
 
     public JobSeeker getJobSeekerByEmail(String email, String passwordInput) throws IOException {
@@ -145,7 +144,7 @@ public class Database {
 
 
     // Swap the name into job seeeker for clarity
-    public boolean userExists(String email) throws IOException {
+    public boolean jobSeekerExists(String email) throws IOException {
 
         try (BufferedReader reader = new BufferedReader(new FileReader(jobSeekerFile))) {
             String line;

@@ -31,6 +31,10 @@ public class MatchJobUI {
             case "3":
                 analyzeResume(user);
                 break;
+            case "4":
+                return;
+            default:
+                System.out.println("--Input Error Try Again--");
         }
 
     }
