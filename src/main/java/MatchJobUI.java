@@ -59,9 +59,38 @@ public class MatchJobUI {
         Resume resume = user.getResume();
         List<Double> scores = matchJobService.analyzeResume(resume);
 
-        for (Double score : scores) {
-            System.out.println(score);
+        gradeResume(scores);
+
+    }
+
+    public void gradeResume(List<Double> scores){
+        String[] sectionName = {"Education", "Skill", "Experience"};
+        String[] remarks = {"Needs Improvement", "Average", "Strong", "Excellent"};
+
+        System.out.println();
+        System.out.println("========== SCORE REPORT ==========\n");
+
+        for (int i = 0; i < scores.size(); i++) {
+            double score = scores.get(i);
+            String remark;
+
+            if (score <= 10) {
+                remark = remarks[0];
+            } else if (score <= 20) {
+                remark = remarks[1];
+            } else if (score <= 30) {
+                remark = remarks[2];
+            } else {
+                remark = remarks[3];
+            }
+
+            System.out.printf("%-15s: %s%n", "Section", sectionName[i]);
+            System.out.printf("%-15s: %.2f%n", "Score", score);
+            System.out.printf("%-15s: %s%n", "Remark", remark);
+            System.out.println("-----------------------------------");
         }
+        System.out.println("============ END REPORT ===========");
+        System.out.println();
 
     }
 
