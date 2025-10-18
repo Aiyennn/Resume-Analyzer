@@ -11,7 +11,7 @@ public class Education extends ResumeSection {
         super(startDate, endDate, achievements);
         this.degree = degree;
         this.school = school;
-        this.achievements = new ArrayList<>();
+        this.achievements = achievements;
     }
 
     public String getDegree() {

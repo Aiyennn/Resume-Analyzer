@@ -208,6 +208,7 @@ public class ResumeUI {
             if (achievement.equalsIgnoreCase("done")) {
                 break;
             } else if (!achievement.isEmpty()) {
+                System.out.println("Achievement added: " + achievement);
                 achievements.add(achievement);
             } else {
                 System.out.println("Please enter a valid text or 'done' to stop.");
