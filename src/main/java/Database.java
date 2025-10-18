@@ -114,6 +114,7 @@ public class Database {
     }
 
     public JobSeeker getJobSeekerByEmail(String email, String passwordInput) throws IOException {
+
         try (BufferedReader reader = new BufferedReader(new FileReader(jobSeekerFile))) {
             String line;
             boolean skipHeader = true;
@@ -128,15 +129,19 @@ public class Database {
                 if (parts.length < 6) continue;
 
                 String currentEmail = parts[1].replace("\"", "");
-                if (currentEmail.equalsIgnoreCase(email)) {
+                String currentPassword = parts[2].replace("\"", "");
+                if (currentEmail.equalsIgnoreCase(email) && currentPassword.equalsIgnoreCase(passwordInput)) {
 
                     String name = parts[0].replace("\"", "");
                     String password = parts[2].replace("\"", "");
 
-                    List<Education> educations = decodeEducations(parts[3]);
-                    List<Experience> experiences = decodeExperiences(parts[4]);
-                    List<Skill> skills = decodeSkills(parts[5]);
+                    // Skills, Education, Experience
 
+                    List<Skill> skills = decodeSkills(parts[3]);
+                    List<Education> educations = decodeEducations(parts[4]);
+                    List<Experience> experiences = decodeExperiences(parts[5]);
+
+                    // Education, Experience, Skill
                     Resume resume = new Resume(educations, experiences, skills);
                     return new JobSeeker(name, currentEmail, password, resume);
                 }
@@ -304,6 +309,10 @@ public class Database {
         System.out.println("Save employer called");
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(employerFile, true))) {
+
+            File file = new File(employerFile);
+            if (file.length() > 0) writer.newLine();
+
             // Flatten JobDescription list with null checks
             ArrayList<JobDescription> jdList = employer.getJobDescriptions();
             List<String> flattenedJDs = new ArrayList<>();
@@ -339,6 +348,7 @@ public class Database {
         try (BufferedReader reader = new BufferedReader(new FileReader(employerFile));
              BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
 
+            boolean firstLine = true;
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",", 4); // split into 4 parts max
@@ -361,8 +371,9 @@ public class Database {
                     line = name + "," + email + "," + password + "," + combinedJDs;
                 }
 
+                if (!firstLine) writer.newLine(); // ensure newline between records
                 writer.write(line);
-                writer.newLine();
+                firstLine = false;
             }
 
         } catch (IOException e) {

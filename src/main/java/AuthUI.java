@@ -33,7 +33,7 @@ public class AuthUI {
             case "4":
                 return employerRegisterInput();
             case "5":
-                return null;
+                System.exit(0);
             default:
                 System.out.println("Invalid input try again");
         }

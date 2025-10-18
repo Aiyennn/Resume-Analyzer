@@ -54,7 +54,7 @@ public class MatchJobUI {
 
         int num = 1;
         for (Map.Entry<JobDescription, Integer> entry : sortedJobs) {
-            Util.printBanner("[" + num + "]: " + entry.getValue() + "Points " + entry.getKey().getTitle());
+            Util.printBanner("[" + num + "]: " + entry.getValue() + " Points " + entry.getKey().getTitle());
         }
 
 

@@ -106,7 +106,7 @@ public class MatchJobService {
                         points++;
                     }
 
-                    System.out.println(skill.getSkill() + " " + skillQualification);
+                    System.out.println("Comparing Skills: " + skill.getSkill() + " " + skillQualification);
                 }
 
             }
@@ -119,7 +119,7 @@ public class MatchJobService {
                         points++;
                     }
 
-                    System.out.println(experience.getRole() + " " + experienceQualification);
+                    System.out.println("Comparing Experience: " + experience.getRole() + " " + experienceQualification);
                 }
 
             }

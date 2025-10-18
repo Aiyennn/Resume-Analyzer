@@ -1,0 +1,4 @@
+Name,Email,Password,JobDescription
+Vince,sample@gmail.com,123,Software Engineer|java|bachelor's degree|software engineer
+Boss,boss@gmail.com,password,Manager|C++|phd|no experience
+Rand,rand@gmail.com,password,data analyst|python|bachelor's degree|no experience
