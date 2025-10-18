@@ -1,7 +1,7 @@
 import java.util.Date;
 
 public class User {
-    public User(String name, String password, String email, Resume resume) {
+    public User(String name, String email, String password, Resume resume) {
         this.name = name;
         this.password = password;
         this.email = email;
@@ -9,7 +9,7 @@ public class User {
     }
 
     // For Employer
-    public User(String name, String password, String email) {
+    public User(String name, String email, String password) {
         this.name = name;
         this.password = password;
         this.email = email;

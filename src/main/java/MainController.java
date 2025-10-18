@@ -71,6 +71,7 @@ public class MainController {
     // End of Job Seeker ------------------------------------------------------------------
 
     // Employer ---------------------------------------------------------------------------
+
     public void employerMenu(User user) {
 
         while (true) {

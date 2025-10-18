@@ -55,7 +55,10 @@ public class Database {
 
             String[] encoded = encodeResumeData(user);
             writer.printf("\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"%n",
-                    user.getName(), user.getPassword(), user.getEmail(),
+                    user.getName(), user.getEmail(), user.getPassword(),
+                    // education, experience, skills
+
+                    // skill. education, experience
                     encoded[2], encoded[0], encoded[1]);
 
         }
@@ -90,7 +93,7 @@ public class Database {
                         String[] encoded = encodeResumeData(user);
                         writer.printf("\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"%n",
                                 user.getName(), user.getEmail(), user.getPassword(),
-                                encoded[0], encoded[1], encoded[2]);
+                                encoded[2], encoded[0], encoded[1]);
                         found = true;
 
                     } else {
