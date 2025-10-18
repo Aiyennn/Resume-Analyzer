@@ -226,7 +226,7 @@ public class ResumeUI {
 
         String school = "";
         while (school.isEmpty()) {
-            System.out.print("Enter your school name: (e.g holy angel university, mit, harvard)");
+            System.out.print("Enter your school name: (e.g holy angel university, mit, harvard): ");
             school = scanner.nextLine().trim();
             if (school.isEmpty()) {
                 System.out.println("⚠️ School name cannot be empty.");

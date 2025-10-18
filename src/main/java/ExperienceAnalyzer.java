@@ -31,14 +31,17 @@ public class ExperienceAnalyzer implements Analyzers{
         // - +10 10 years
         // - +99999999999 95 years
 
-        if(totalDays/365 <= 1 && totalDays/365 > 0){
+        long years = totalDays / 365;
+
+        if (years >= 0 && years <= 3) {
             score += 5;
-        }else if(totalDays/365 == 10){
+        } else if (years >= 4 && years <= 9) {
             score += 10;
-        }else{
+        } else if (years == 10) {
+            score += 15;
+        } else {
             score += 999;
         }
-
         // Step 6: Return the points
 
         return score;
