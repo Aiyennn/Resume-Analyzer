@@ -95,7 +95,7 @@ public class MatchJobService {
         System.out.println(jobListing.size());
         for (JobDescription job : jobListing) {
 
-            System.out.println("Checking: " + job.getTitle());
+//            System.out.println("Checking: " + job.getTitle()); | For debugging
             int points = 0;
 
             // Check skills
@@ -106,7 +106,7 @@ public class MatchJobService {
                         points++;
                     }
 
-                    System.out.println("Comparing Skills: " + skill.getSkill() + " " + skillQualification);
+//                    System.out.println("Comparing Skills: " + skill.getSkill() + " " + skillQualification); | For debugging
                 }
 
             }
@@ -119,7 +119,7 @@ public class MatchJobService {
                         points++;
                     }
 
-                    System.out.println("Comparing Experience: " + experience.getRole() + " " + experienceQualification);
+//                    System.out.println("Comparing Experience: " + experience.getRole() + " " + experienceQualification); | For debuggin
                 }
 
             }
