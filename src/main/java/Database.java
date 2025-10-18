@@ -343,8 +343,8 @@ public class Database {
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",", 4); // split into 4 parts max
 
-                System.out.println("Here ----------------: " + parts[1] + " " + employer.getEmail());
                 if (parts.length >= 3 && parts[1].equals(employer.getEmail())) {
+
 
                     // This is the employer to update, flatten it like saveEmployer
                     ArrayList<JobDescription> jdList = employer.getJobDescriptions();
@@ -422,7 +422,7 @@ public class Database {
                         }
                     }
 
-                    Employer employer = new Employer(name, pwd, mail, jdList);
+                    Employer employer = new Employer(name, mail, pwd, jdList);
                     return employer;
                 }
             }
