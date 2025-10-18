@@ -138,7 +138,7 @@ public class Database {
                     List<Skill> skills = decodeSkills(parts[5]);
 
                     Resume resume = new Resume(educations, experiences, skills);
-                    return new JobSeeker(name, password, currentEmail, resume);
+                    return new JobSeeker(name, currentEmail, password, resume);
                 }
             }
         }
