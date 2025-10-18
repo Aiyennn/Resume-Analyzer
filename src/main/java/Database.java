@@ -158,7 +158,7 @@ public class Database {
                     continue;
                 }
                 String[] parts = splitCsvLine(line);
-                if (parts.length >= 3 && parts[2].replace("\"", "").equalsIgnoreCase(email)) {
+                if (parts.length >= 3 && parts[1].replace("\"", "").equalsIgnoreCase(email)) {
                     return true;
                 }
             }
@@ -444,7 +444,7 @@ public class Database {
                     continue;
                 }
                 String[] parts = splitCsvLine(line);
-                if (parts.length >= 3 && parts[2].replace("\"", "").equalsIgnoreCase(email)) {
+                if (parts.length >= 3 && parts[1].replace("\"", "").equalsIgnoreCase(email)) {
                     return true;
                 }
             }
