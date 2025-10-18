@@ -41,6 +41,7 @@ public class MatchJobService {
         );
 
         user.addJobDescription(jobDescription);
+        System.out.println("Employer updated: " + user.getName() + user.getJobDescriptions());
         database.updateEmployer(user);
 
         // Instantiate

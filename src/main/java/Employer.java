@@ -3,8 +3,9 @@ import java.util.ArrayList;
 public class Employer extends User{
     private ArrayList<JobDescription> jobDescriptions;
 
+    // Wait ------------------------------------------
     public Employer(String name, String email, String password, ArrayList<JobDescription> jobDescriptions) {
-        super(name, password, email);
+        super(name, email, password);
         this.jobDescriptions = jobDescriptions;
     }
 

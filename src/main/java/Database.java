@@ -299,6 +299,7 @@ public class Database {
     public void saveEmployer(Employer employer) {
 
         System.out.println("Save employer called");
+
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(employerFile, true))) {
             // Flatten JobDescription list with null checks
             ArrayList<JobDescription> jdList = employer.getJobDescriptions();
@@ -328,6 +329,7 @@ public class Database {
 
         System.out.println("Employer Updated: ");
         System.out.println(employer.name);
+
         File tempFile = new File("temp_employer_file.txt");
         File inputFile = new File(employerFile);
 
@@ -337,7 +339,10 @@ public class Database {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",", 4); // split into 4 parts max
+
+                System.out.println("Here ----------------: " + parts[1] + " " + employer.getEmail());
                 if (parts.length >= 3 && parts[1].equals(employer.getEmail())) {
+
                     // This is the employer to update, flatten it like saveEmployer
                     ArrayList<JobDescription> jdList = employer.getJobDescriptions();
                     List<String> flattenedJDs = new ArrayList<>();
@@ -463,12 +468,11 @@ public class Database {
                 line = line.trim();
                 if (line.isEmpty()) continue;
 
-                String[] parts = line.split(",", 4); // Back to 4
-                if (parts.length < 4) continue; // Need at least 4 parts
+                String[] parts = line.split(",", 4);
+                if (parts.length < 4) continue;
 
-                String jobData = parts[3].replace("\"", ""); // parts[3] is correct
+                String jobData = parts[3].replace("\"", "");
 
-                // If jobData is empty, skip this line
                 if (jobData.trim().isEmpty()) continue;
 
                 String[] jobEntries = jobData.split("\\|\\|");
@@ -477,10 +481,8 @@ public class Database {
                     jobEntry = jobEntry.trim();
                     if (jobEntry.isEmpty()) continue;
 
-                    // Remove stray leading or internal pipes
                     jobEntry = jobEntry.replaceAll("^\\|+", "").trim();
 
-                    // Remove # anywhere at start of a title segment
                     jobEntry = jobEntry.replaceAll("#+", "").trim();
 
                     String[] jobParts = jobEntry.split("\\|");
@@ -538,6 +540,7 @@ public class Database {
             String title = jd.getTitle() != null ? jd.getTitle() : "";
             flattened.add(title + "|" + skills + "|" + education + "|" + experience);
         }
+
         return String.join("#", flattened);
     }
 
